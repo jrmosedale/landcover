@@ -1,0 +1,74 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Pocket Sam/Data/Sentinel_2_2A/june17/S2A_MSIL2A_20170617T113321_N0205_R080_T29UQR_20170617T113319.SAFE/MTD_MSIL2A.xml</file>
+    </parameters>
+  </node>
+  <node id="Import-Vector">
+    <operator>Import-Vector</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <vectorFile>/Volumes/Pocket Sam/Data/Boundaries/geog_areas/Cornwall_mainland_buffer500m_WGS84_EPSG4326.qix</vectorFile>
+      <separateShapes>true</separateShapes>
+    </parameters>
+  </node>
+  <node id="Land-Sea-Mask">
+    <operator>Land-Sea-Mask</operator>
+    <sources>
+      <sourceProduct refid="Import-Vector"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <landMask>true</landMask>
+      <useSRTM>true</useSRTM>
+      <geometry/>
+      <invertGeometry>false</invertGeometry>
+      <shorelineExtension>0</shorelineExtension>
+    </parameters>
+  </node>
+  <node id="NdviOp">
+    <operator>NdviOp</operator>
+    <sources>
+      <sourceProduct refid="Land-Sea-Mask"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <redFactor>1.0</redFactor>
+      <nirFactor>1.0</nirFactor>
+      <redSourceBand/>
+      <nirSourceBand/>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="NdviOp"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/Calc_Images/Calc_Images/Calc_Images/target.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+      <displayPosition x="33.0" y="123.0"/>
+    </node>
+    <node id="Import-Vector">
+      <displayPosition x="149.0" y="124.0"/>
+    </node>
+    <node id="Land-Sea-Mask">
+      <displayPosition x="287.0" y="124.0"/>
+    </node>
+    <node id="NdviOp">
+      <displayPosition x="452.0" y="125.0"/>
+    </node>
+    <node id="Write">
+      <displayPosition x="542.0" y="123.0"/>
+    </node>
+  </applicationData>
+</graph>

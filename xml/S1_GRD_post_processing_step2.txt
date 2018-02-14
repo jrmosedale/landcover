@@ -1,0 +1,34 @@
+S1 simple classification tests
+
+INPUTS
+Use Tile E outputs from terrain flatenning and correction - gamma intensities
+Choose one ascending and one descending views for each time period:
+E. April 17
+L. July 17
+
+IMAGE CALC
+Calculate VV/VH and VV-VH - choose latter - as intensity and not dimensionless dB
+Add RGB VV, VH, VV-VH for each image
+
+Calculate GLCM texture components using VV VH and VV-VH - to give:
+contrast, disim, homog, energy, entropy, GLCM mean and variance
+
+
+ACROSS IMAGE CALC
+Create Stack (to allow comparison between images)
+
+Combining ASC and DESC rasters: 
+Calculate average VV and VH for April and July
+
+Change detection between times: 
+1 RGB as April VH, July VH, July - April VH 
+	distinguish between coniferous (blue-yellow) and broadleaf (red) woods
+	
+2 RGB as April VV-VH,  July VV-VH,  JulyVV-VH - AprilVV-VH 
+ 	distinguishes between built (yellow) up and forest(red-bl speckle). 
+ 	Blue fields = 
+ 	Red fields = 
+
+Next:
+Import shape file masks cut to region eg of Forest type, habitat, urban, buildings etc
+

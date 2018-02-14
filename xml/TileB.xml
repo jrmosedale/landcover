@@ -1,0 +1,48 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Pocket Sam/Data/Sentinel_1/batch_output/S1A_IW_GRDH_1SDV_20170728T180533_20170728T180558_017675_01D975_1774.dim</file>
+    </parameters>
+  </node>
+  <node id="Subset">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands>Gamma0_VV</sourceBands>
+      <region>0,0,45192,21171</region>
+      <geoRegion>POLYGON ((-5.75 49.95000076293945, -5.349999904632568 49.95000076293945, -5.349999904632568 50.2599983215332, -5.75 50.2599983215332, -5.75 49.95000076293945, -5.75 49.95000076293945))</geoRegion>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <tiePointGridNames/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-1/batch_outputs/tileA/Subset_S1A_IW_GRDH_1SDV_20170728T180533_20170728T180558_017675_01D975_1774.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+            <displayPosition x="37.0" y="134.0"/>
+    </node>
+    <node id="Subset">
+      <displayPosition x="322.0" y="135.0"/>
+    </node>
+    <node id="Write">
+            <displayPosition x="649.0" y="134.0"/>
+    </node>
+  </applicationData>
+</graph>

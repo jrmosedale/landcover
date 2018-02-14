@@ -1,0 +1,272 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Pocket Sam/Data/Sentinel_1/batch_output/S1A_IW_GRDH_1SDV_20170701T063126_20170701T063151_017274_01CD46_EFD8.dim</file>
+    </parameters>
+  </node>
+  <node id="Subset">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <region>0,0,45917,21233</region>
+      <geoRegion>POLYGON ((-6.449999809265137 49.79999923706055, -6.199999809265137 49.79999923706055, -6.199999809265137 50.099998474121094, -6.449999809265137 50.099998474121094, -6.449999809265137 49.79999923706055, -6.449999809265137 49.79999923706055))</geoRegion>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <tiePointGridNames/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Subset(2)">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <region>0,0,45917,21233</region>
+      <geoRegion>POLYGON ((-5.75 49.95000076293945, -5.349999904632568 49.95000076293945, -5.349999904632568 50.2599983215332, -5.75 50.2599983215332, -5.75 49.95000076293945, -5.75 49.95000076293945))</geoRegion>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <tiePointGridNames/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Write(2)">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset(2)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-1/batch_outputs/tileB/Tile_B_S1A_IW_GRDH_1SDV_20170701T063126_20170701T063151_017274_01CD46_EFD8.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <node id="Subset(3)">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <region>0,0,45917,21233</region>
+      <geoRegion>POLYGON ((-5.360000133514404 50.25, -5 50.25, -5 50.5, -5.360000133514404 50.5, -5.360000133514404 50.25, -5.360000133514404 50.25))</geoRegion>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <tiePointGridNames/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Subset(4)">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <region>0,0,4120,3117</region>
+      <geoRegion>POLYGON ((-5.360000133514404 49.95000076293945, -5 49.95000076293945, -5 50.2599983215332, -5.360000133514404 50.2599983215332, -5.360000133514404 49.95000076293945, -5.360000133514404 49.95000076293945))</geoRegion>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <tiePointGridNames/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Subset(5)">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <region>0,0,4120,3117</region>
+      <geoRegion>POLYGON ((-5.010000228881836 50.400001525878906, -4.639999866485596 50.400001525878906, -4.639999866485596 50.689998626708984, -5.010000228881836 50.689998626708984, -5.010000228881836 50.400001525878906, -5.010000228881836 50.400001525878906))</geoRegion>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <tiePointGridNames/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Subset(6)">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <region>0,0,4120,3117</region>
+      <geoRegion>POLYGON ((-5.010000228881836 50.130001068115234, -4.639999866485596 50.130001068115234, -4.639999866485596 50.40999984741211, -5.010000228881836 50.40999984741211, -5.010000228881836 50.130001068115234, -5.010000228881836 50.130001068115234))</geoRegion>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <tiePointGridNames/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Subset(7)">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <region>0,0,4120,3117</region>
+      <geoRegion>POLYGON ((-4.650000095367432 50.54999923706055, -4.150000095367432 50.54999923706055, -4.150000095367432 50.939998626708984, -4.650000095367432 50.939998626708984, -4.650000095367432 50.54999923706055, -4.650000095367432 50.54999923706055))</geoRegion>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <tiePointGridNames/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Subset(8)">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <region>0,0,4120,3117</region>
+      <geoRegion>POLYGON ((-4.650000095367432 50.29999923706055, -4.150000095367432 50.29999923706055, -4.150000095367432 50.560001373291016, -4.650000095367432 50.560001373291016, -4.650000095367432 50.29999923706055, -4.650000095367432 50.29999923706055))</geoRegion>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <tiePointGridNames/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Write(3)">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset(3)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-1/batch_outputs/tileC/Tile_C_S1A_IW_GRDH_1SDV_20170701T063126_20170701T063151_017274_01CD46_EFD8.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <node id="Write(4)">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset(4)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-1/batch_outputs/tileD/Tile_D_S1A_IW_GRDH_1SDV_20170701T063126_20170701T063151_017274_01CD46_EFD8.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <node id="Write(5)">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset(5)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-1/batch_outputs/tileE/Tile_E_S1A_IW_GRDH_1SDV_20170701T063126_20170701T063151_017274_01CD46_EFD8.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <node id="Write(6)">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset(6)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-1/batch_outputs/tileF/Tile_F_S1A_IW_GRDH_1SDV_20170701T063126_20170701T063151_017274_01CD46_EFD8.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <node id="Write(7)">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset(7)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-1/batch_outputs/tileG/Tile_G_S1A_IW_GRDH_1SDV_20170701T063126_20170701T063151_017274_01CD46_EFD8.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <node id="Write(8)">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset(8)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-1/batch_outputs/tileH/Tile_H_S1A_IW_GRDH_1SDV_20170701T063126_20170701T063151_017274_01CD46_EFD8.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-1/batch_outputs/tileA/Tile_A_S1A_IW_GRDH_1SDV_20170701T063126_20170701T063151_017274_01CD46_EFD8.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+            <displayPosition x="43.0" y="130.0"/>
+    </node>
+    <node id="Subset">
+      <displayPosition x="80.0" y="13.0"/>
+    </node>
+    <node id="Subset(2)">
+      <displayPosition x="117.0" y="62.0"/>
+    </node>
+    <node id="Write(2)">
+      <displayPosition x="248.0" y="57.0"/>
+    </node>
+    <node id="Subset(3)">
+      <displayPosition x="164.0" y="101.0"/>
+    </node>
+    <node id="Subset(4)">
+      <displayPosition x="215.0" y="137.0"/>
+    </node>
+    <node id="Subset(5)">
+      <displayPosition x="214.0" y="170.0"/>
+    </node>
+    <node id="Subset(6)">
+      <displayPosition x="169.0" y="202.0"/>
+    </node>
+    <node id="Subset(7)">
+      <displayPosition x="122.0" y="234.0"/>
+    </node>
+    <node id="Subset(8)">
+      <displayPosition x="55.0" y="262.0"/>
+    </node>
+    <node id="Write(3)">
+      <displayPosition x="289.0" y="95.0"/>
+    </node>
+    <node id="Write(4)">
+      <displayPosition x="357.0" y="132.0"/>
+    </node>
+    <node id="Write(5)">
+      <displayPosition x="355.0" y="168.0"/>
+    </node>
+    <node id="Write(6)">
+      <displayPosition x="301.0" y="199.0"/>
+    </node>
+    <node id="Write(7)">
+      <displayPosition x="256.0" y="235.0"/>
+    </node>
+    <node id="Write(8)">
+      <displayPosition x="244.0" y="266.0"/>
+    </node>
+    <node id="Write">
+            <displayPosition x="247.0" y="10.0"/>
+    </node>
+  </applicationData>
+</graph>

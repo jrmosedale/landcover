@@ -1,0 +1,65 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Users/jm622/Sentinel/Sentinel-2/Level_2A/S2A_MSIL2A_20170408T113321_N0204_R080_T30UUB_20170408T113407.SAFE</file>
+      <formatName>SENTINEL-2-MSI-MultiRes-UTM30N</formatName>
+    </parameters>
+  </node>
+  <node id="Resample">
+    <operator>Resample</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <referenceBand>B2</referenceBand>
+      <targetWidth/>
+      <targetHeight/>
+      <targetResolution/>
+      <upsampling>Nearest</upsampling>
+      <downsampling>First</downsampling>
+      <flagDownsampling>First</flagDownsampling>
+      <resampleOnPyramidLevels>true</resampleOnPyramidLevels>
+    </parameters>
+  </node>
+  <node id="BiophysicalOp">
+    <operator>BiophysicalOp</operator>
+    <sources>
+      <sourceProduct refid="Resample"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <computeLAI>true</computeLAI>
+      <computeFapar>true</computeFapar>
+      <computeFcover>true</computeFcover>
+      <computeCab>true</computeCab>
+      <computeCw>true</computeCw>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="BiophysicalOp"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Users/jm622/Sentinel/Sentinel-2/Outputs/S2A_20170408_T30UUB_10m_BiophysicalOp.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+            <displayPosition x="37.0" y="134.0"/>
+    </node>
+    <node id="Resample">
+      <displayPosition x="157.0" y="133.0"/>
+    </node>
+    <node id="BiophysicalOp">
+      <displayPosition x="266.0" y="130.0"/>
+    </node>
+    <node id="Write">
+            <displayPosition x="455.0" y="135.0"/>
+    </node>
+  </applicationData>
+</graph>

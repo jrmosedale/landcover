@@ -1,0 +1,65 @@
+<!--
+>> C:\Progra~1\snap\bin\gpt "G:\EOData\graphs\SplitS2_Graph.xml" -PtargetBasePath="G:\EOData\temp\S2A_MS
+IL1C_20160914T074612\S2A_MSIL1C_20160914T074612_N0204_R135_T36JTT_20160914T081456" "G:\EOData\S2\S2A_MSIL1C_20160914T074612_N0204_R135_T36JTT_20160914T081456.SAFE\MTD_MSIL1C.xml"
+-->
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Resample">
+    <operator>Resample</operator>
+    <sources>
+      <sourceProduct>${sourceProduct}</sourceProduct>
+    </sources>
+    <parameters>
+      <referenceBand>B4</referenceBand>
+      <targetWidth/>
+      <targetHeight/>
+      <targetResolution/>
+      <upsampling>Nearest</upsampling>
+      <downsampling>First</downsampling>
+      <flagDownsampling>First</flagDownsampling>
+      <resampleOnPyramidLevels>true</resampleOnPyramidLevels>
+    </parameters>
+  </node>
+  <node id="BandSelect">
+    <operator>BandSelect</operator>
+    <sources>
+      <sourceProduct refid="Resample"/>
+    </sources>
+    <parameters>
+      <selectedPolarisations/>
+      <sourceBands>B1</sourceBands>
+      <bandNamePattern/>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="BandSelect"/>
+    </sources>
+    <parameters>
+      <file>${targetBasePath}_B1.tif</file>
+      <formatName>GeoTiff</formatName>
+    </parameters>
+  </node>
+  <node id="BandSelect(2)">
+    <operator>BandSelect</operator>
+    <sources>
+      <sourceProduct refid="Resample"/>
+    </sources>
+    <parameters>
+      <selectedPolarisations/>
+      <sourceBands>B2</sourceBands>
+      <bandNamePattern/>
+    </parameters>
+  </node>
+  <node id="Write(2)">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="BandSelect(2)"/>
+    </sources>
+    <parameters>
+      <file>${targetBasePath}_B2.tif</file>
+      <formatName>GeoTiff</formatName>
+    </parameters>
+  </node>
+</graph>

@@ -1,0 +1,12 @@
+# COMMAND LINE running of GPT with xml graph file
+# Call GPT with following parameters:
+# xml Graph file (modified to take inputs as parameters file names etc)
+# define inputs e.g. -Pinput1="xxxx"
+
+# For example:
+/mnt/data/snapv2_20112015/bin/gpt 
+/mnt/data/Exercise4-CommandLine/BatchGraph_modified.xml\
+-Pinput1="/mnt/data/Exercise2- TimeSeries/Dataset/S1A_IW_GRDH_1SDV_20150511T175713_20150511T175738_005877_007913_DEA8. SAFE/manifest.safe" 
+-Pinput2="5" 
+-Pinput3="5"\
+-Ptarget1="/mnt/data/Exercise4-CommandLine/Output/S1A_IW_GRDH_newproc.dim"

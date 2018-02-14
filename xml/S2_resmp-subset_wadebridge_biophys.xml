@@ -1,0 +1,67 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/2A_Products/S2A_MSIL2A_20170617T113321_N0205_R080_T30UUB_20170617T113319.SAFE</file>
+    </parameters>
+  </node>
+  <node id="Resample">
+    <operator>Resample</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <referenceBand>B2</referenceBand>
+      <targetWidth/>
+      <targetHeight/>
+      <targetResolution/>
+      <upsampling>Nearest</upsampling>
+      <downsampling>First</downsampling>
+      <flagDownsampling>First</flagDownsampling>
+      <resampleOnPyramidLevels>true</resampleOnPyramidLevels>
+    </parameters>
+  </node>
+  <node id="Subset">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="Resample"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands>B1,B2,B3,B4,B5,B6,B7,B8,B8A,B9,B11,B12,quality_aot,quality_wvp,quality_cloud_confidence,quality_snow_confidence,quality_scene_classification,view_zenith_mean,view_azimuth_mean,sun_zenith,sun_azimuth,view_zenith_B1,view_azimuth_B1,view_zenith_B2,view_azimuth_B2,view_zenith_B3,view_azimuth_B3,view_zenith_B4,view_azimuth_B4,view_zenith_B5,view_azimuth_B5,view_zenith_B6,view_azimuth_B6,view_zenith_B7,view_azimuth_B7,view_zenith_B8,view_azimuth_B8,view_zenith_B8A,view_azimuth_B8A,view_zenith_B9,view_azimuth_B9,view_zenith_B10,view_azimuth_B10,view_zenith_B11,view_azimuth_B11,view_zenith_B12,view_azimuth_B12</sourceBands>
+      <region>0,0,1098,1098</region>
+      <geoRegion>POLYGON ((-4.900000095367432 50.58000183105469, -4.75 50.58000183105469, -4.75 50.47999954223633, -4.900000095367432 50.47999954223633, -4.900000095367432 50.58000183105469, -4.900000095367432 50.58000183105469))</geoRegion>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <tiePointGridNames/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/Calc_Images/S2A_NSIL2A_20170617_T30UUB_rsmp_subwdbg.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+            <displayPosition x="37.0" y="134.0"/>
+    </node>
+    <node id="Resample">
+      <displayPosition x="145.0" y="128.0"/>
+    </node>
+    <node id="Subset">
+      <displayPosition x="235.0" y="124.0"/>
+    </node>
+    <node id="Write">
+            <displayPosition x="349.0" y="125.0"/>
+    </node>
+  </applicationData>
+</graph>

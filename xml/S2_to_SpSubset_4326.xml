@@ -1,0 +1,133 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Pocket Sam/Data/Sentinel_2/Level_2A/S2A_MSIL2A_20170617T113321_N0205_R080_T30UUB_20170617T113319.SAFE</file>
+    </parameters>
+  </node>
+  <node id="Resample">
+    <operator>Resample</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <referenceBand>B2</referenceBand>
+      <targetWidth/>
+      <targetHeight/>
+      <targetResolution/>
+      <upsampling>Nearest</upsampling>
+      <downsampling>First</downsampling>
+      <flagDownsampling>First</flagDownsampling>
+      <resampleOnPyramidLevels>true</resampleOnPyramidLevels>
+    </parameters>
+  </node>
+  <node id="Reproject">
+    <operator>Reproject</operator>
+    <sources>
+      <sourceProduct refid="Resample"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <wktFile/>
+      <crs>GEOGCS[&quot;WGS84(DD)&quot;, 
+  DATUM[&quot;WGS84&quot;, 
+    SPHEROID[&quot;WGS84&quot;, 6378137.0, 298.257223563]], 
+  PRIMEM[&quot;Greenwich&quot;, 0.0], 
+  UNIT[&quot;degree&quot;, 0.017453292519943295], 
+  AXIS[&quot;Geodetic longitude&quot;, EAST], 
+  AXIS[&quot;Geodetic latitude&quot;, NORTH]]</crs>
+      <resampling>Nearest</resampling>
+      <referencePixelX/>
+      <referencePixelY/>
+      <easting/>
+      <northing/>
+      <orientation/>
+      <pixelSizeX/>
+      <pixelSizeY/>
+      <width/>
+      <height/>
+      <tileSizeX/>
+      <tileSizeY/>
+      <orthorectify>false</orthorectify>
+      <elevationModelName/>
+      <noDataValue>NaN</noDataValue>
+      <includeTiePointGrids>true</includeTiePointGrids>
+      <addDeltaBands>false</addDeltaBands>
+    </parameters>
+  </node>
+  <node id="Land-Sea-Mask">
+    <operator>Land-Sea-Mask</operator>
+    <sources>
+      <sourceProduct refid="Reproject"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <landMask>false</landMask>
+      <useSRTM>false</useSRTM>
+      <geometry/>
+      <invertGeometry>false</invertGeometry>
+      <shorelineExtension>0</shorelineExtension>
+    </parameters>
+  </node>
+  <node id="Subset">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="Land-Sea-Mask"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands>B1,B2,B3,B4,B5,B6,B7,B8,B8A,B9,B11,B12</sourceBands>
+      <region>0,0,1737,1099</region>
+      <geoRegion>POLYGON ((-4.900000095367432 50.58000183105469, -4.75 50.58000183105469, -4.75 50.47999954223633, -4.900000095367432 50.47999954223633, -4.900000095367432 50.58000183105469, -4.900000095367432 50.58000183105469))</geoRegion>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <tiePointGridNames/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Write(2)">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Write"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/2A_Products/post-proces/wadebridge_10m_WGS84_S2A_MSIL2A_20170617_T30UUB.tif</file>
+      <formatName>GeoTIFF-BigTIFF</formatName>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/2A_Products/post-proces/wadebridge_10m_WGS84_S2A_MSIL2A_20170617.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+            <displayPosition x="37.0" y="134.0"/>
+    </node>
+    <node id="Resample">
+      <displayPosition x="105.0" y="177.0"/>
+    </node>
+    <node id="Reproject">
+      <displayPosition x="131.0" y="104.0"/>
+    </node>
+    <node id="Land-Sea-Mask">
+      <displayPosition x="183.0" y="207.0"/>
+    </node>
+    <node id="Subset">
+      <displayPosition x="301.0" y="118.0"/>
+    </node>
+    <node id="Write(2)">
+      <displayPosition x="507.0" y="195.0"/>
+    </node>
+    <node id="Write">
+            <displayPosition x="477.0" y="116.0"/>
+    </node>
+  </applicationData>
+</graph>

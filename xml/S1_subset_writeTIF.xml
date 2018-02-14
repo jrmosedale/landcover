@@ -1,0 +1,61 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-1/Outputs/Subset_S1A_IW_GRDH_1SDV_20170423T180524_20170423T180549_016275_01AEB7_C69F_Orb_Cal_TF_TC.dim</file>
+    </parameters>
+  </node>
+  <node id="Subset">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands>Gamma0_VV,Gamma0_VH</sourceBands>
+      <region>0,0,44961,21162</region>
+      <geoRegion>POLYGON ((-4.900000095367432 50.58000183105469, -4.75 50.58000183105469, -4.75 50.47999954223633, -4.900000095367432 50.47999954223633, -4.900000095367432 50.58000183105469, -4.900000095367432 50.58000183105469))</geoRegion>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <tiePointGridNames/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Write(2)">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Write"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-1/Outputs/wadebridge_S1A_IW_GRDH_1SDV_20170423T180524_Orb_Cal_TF_TC.tif</file>
+      <formatName>GeoTIFF-BigTIFF</formatName>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Volumes/Macintosh HD/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-1/Outputs/wadebridge_S1A_IW_GRDH_1SDV_20170423T180524_Orb_Cal_TF_TC.data.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+            <displayPosition x="37.0" y="134.0"/>
+    </node>
+    <node id="Subset">
+      <displayPosition x="223.0" y="147.0"/>
+    </node>
+    <node id="Write(2)">
+      <displayPosition x="589.0" y="248.0"/>
+    </node>
+    <node id="Write">
+            <displayPosition x="508.0" y="139.0"/>
+    </node>
+  </applicationData>
+</graph>
