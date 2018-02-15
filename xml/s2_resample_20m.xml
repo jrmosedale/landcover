@@ -1,0 +1,48 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/2A_Products/S2A_MSIL2A_20170408T113321_N0204_R080_T30UUA_20170408T113407.SAFE</file>
+    </parameters>
+  </node>
+  <node id="Resample">
+    <operator>Resample</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <referenceBand>B8A</referenceBand>
+      <targetWidth/>
+      <targetHeight/>
+      <targetResolution/>
+      <upsampling>Nearest</upsampling>
+      <downsampling>First</downsampling>
+      <flagDownsampling>First</flagDownsampling>
+      <resampleOnPyramidLevels>true</resampleOnPyramidLevels>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Resample"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/2A_post-proces/2A_post-proces/S2A_MSIL2A_20170408T113321_N0204_R080_T30UUA_20170408T113407_resampled20.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+            <displayPosition x="2.0" y="123.0"/>
+    </node>
+    <node id="Resample">
+      <displayPosition x="193.0" y="162.0"/>
+    </node>
+    <node id="Write">
+            <displayPosition x="370.0" y="166.0"/>
+    </node>
+  </applicationData>
+</graph>
