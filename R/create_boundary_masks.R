@@ -1,6 +1,6 @@
 # Calculate masks from OS boundary data
 library(sf)
-
+dir_keybdry<-"../../Data/Key_Boundaries/high_water_polygon/"
 dir_OS<-"../../Data/OS/bdline_essh_gb/Data/GB/"
 dir_out<-"masks/"
 list.files(dir_OS)
@@ -58,7 +58,61 @@ st_write(cornwall_4326,dsn=paste(dir_out,"cornwall_mainland_adminpolygon_4326",s
 st_write(cornwallbuf_4326,dsn=paste(dir_out,"cornwall_mainland_adminpolygon_15kmbuf_4326",sep=""),layer="cornwall_mainland_adminpolygon_15kmbuf_4326",driver="ESRI Shapefile")
 
 
-# MHW ISSUES
+# Create MHW Polygons
+# OS admin areas clipped predom to MLW spring although varies see:
+# OS MHW supplied as polyline due to complexity of coastline
+# Use derived MHW(spring) polygon developed by Univ Edingburgh from OS
+# OS crs
+MHW<-st_read(paste0(dir_keybdry,"high_water_polygon.shp"))
+st_crs(MHW)<-st_crs(GB_MHW)
+
+# Create MHW polygons for Cornwall and CornwallIoS
+# Add 500m coast buffer to Cornwall  polygon and intersect
+Cornwall2<-st_buffer(Cornwall,500)
+Cornwall.MHW<-st_intersection(MHW,Cornwall2)
+Cornwall.MHW<-st_union(Cornwall.MHW)
+Cornwall_IoS2<-st_buffer(Cornwall_IoS,500)
+Cornwall_IoS.MHW<-st_intersection(MHW,Cornwall_IoS2)
+Cornwall_IoS.MHW<-st_union(Cornwall_IoS.MHW)
+
+# Re-Project
+Cornwall.MHW_4326<-st_transform(Cornwall.MHW,4326)
+Cornwall_IoS.MHW_4326<-st_transform(Cornwall_IoS.MHW,4326)
+
+# Write  masks as shape files
+st_write(Cornwall.MHW_4326,dsn=paste(dir_out,"cornwall_mainland_MHWpolygon_4326",sep=""),layer="cornwall_mainland_MHWpolygon_4326",driver="ESRI Shapefile",delete_dsn=TRUE)
+st_write(Cornwall_IoS.MHW_4326,dsn=paste(dir_out,"cornwall_IoS_MHWpolygon_4326",sep=""),layer="cornwall_IoS_MHWpolygon_4326",driver="ESRI Shapefile")
+
+
+# Create extended MHW polygons incl 15km buffer into Devon
+# Add coast buffer to Cornwall extended polygon and intersect
+Cornwall.buf2<-st_buffer(Cornwall.buf,500)
+Cornwall.buf.MHW<-st_intersection(MHW,Cornwall.buf2)
+Cornwall.buf.MHW<-st_union(Cornwall.buf.MHW)
+# Add coast buffer to Cornwall & IoS extended polygon and intersect
+CornwallIoS.buf2<-st_buffer(CornwallIoS.buf,500)
+CornwallIoS.buf.MHW<-st_intersection(MHW,CornwallIoS.buf2)
+CornwallIoS.buf.MHW<-st_union(CornwallIoS.buf.MHW)
+
+st_write(Cornwall.buf.MHW,dsn=paste(dir_out,"cornwall_mainland_15kmbuf_MHWpolygon",sep=""),layer="cornwall_mainland_15kmbuf_MHWpolygon",driver="ESRI Shapefile",delete_dsn=TRUE)
+
+# Re-Project
+Cornwall.buf.MHW_4326<-st_transform(Cornwall.buf.MHW,4326)
+CornwallIoS.buf.MHW_4326<-st_transform(CornwallIoS.buf.MHW,4326)
+
+# Write buffered masks as shape files
+st_write(Cornwall.buf.MHW_4326,dsn=paste(dir_out,"cornwall_mainland_15kmbuf_MHWpolygon_4326",sep=""),layer="cornwall_mainland_15kmbuf_MHWpolygon_4326",driver="ESRI Shapefile",delete_dsn=TRUE)
+st_write(CornwallIoS.buf.MHW_4326,dsn=paste(dir_out,"cornwall_IoS_15kmbuf_MHWpolygon_4326",sep=""),layer="cornwall_IoS_15kmbuf_MHWpolygon_4326",driver="ESRI Shapefile")
+
+
+# Create further buffered mask using extended mainland MHW
+cornwall.buf.MHW.500m<-st_buffer(Cornwall.buf.MHW,500)
+Cornwall.buf.MHW.500m_4326<-st_transform(cornwall.buf.MHW.500m,4326)
+st_write(Cornwall.buf.MHW.500m_4326,dsn=paste(dir_out,"cornwall_mainland_15kmbuf_500m_MHWpolygon_4326",sep=""),layer="cornwall_mainland_15kmbuf_500m_MHWpolygon_4326",driver="ESRI Shapefile",delete_dsn=TRUE)
+
+
+
+# TESTS ETC
 # Cornwall mainland MHW to buffered area using tailored bbox
 # Define bbox
 b.box<-st_bbox(Cornwall.buf) # or any polygon
@@ -69,6 +123,8 @@ b.box[4]<- 150000 # raise ymax toen
 
 # Clip MHW to enlarged area defined by b.box
 Cornwall.MHW.buf<-st_intersection(GB_MHW, st_as_sfc(b.box) )
+st_write(Cornwall.MHW.buf,dsn=paste(dir_out,"cornwall_mainland_maxbuf_MHW_4326",sep=""),layer="cornwall_mainland_maxbuf_MHW_4326",driver="ESRI Shapefile",delete_dsn=TRUE)
+
 # Add vertical line at xmax
 geom <- st_geometry(Cornwall.MHW.buf)
 print(geom[[1]])
@@ -94,7 +150,7 @@ plot(CornwallIoS.MHW.buf$geometry)
 # OS proj
 # bbox for buffered Cornwall&IoS: xmin 67600 ymin -10000 xmax 262000 ymax 150000
 out_4326<-st_transform(out_shape,4326)
-cornwall_4326<-st_transform(Cornwall,4326)
+00<-st_transform(Cornwall,4326)
 cornwallbuf_4326<-st_transform(Cornwall.buf,4326)
 
 plot(cornwallbuf_4326$geometry)
