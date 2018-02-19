@@ -1,0 +1,21 @@
+#!/bin/bash
+# 
+# 
+Sdate=2017-01-01T00:00:00.000Z
+Edate=2017-12-31T00:00:00.000Z
+Product=MSIL2A
+Tilefile=$HOME/sentinel/tilelist.txt
+echo "Tile file="$Tilefile
+IFS=","
+
+# Read tiles from file using SGE TASK ID
+Tile=`sed -n $SGE_TASK_ID\p $Tilefile`
+#Tile=30UUB
+echo "Searching for " $ Product "files between " $Sdate " and " $Edate " where Tile=" $Tile
+
+#WKDIR=$HOME"/sentinel" # location of R script
+#cd $WKDIR
+
+bash dhusget.sh -T $Product  -S $SDate -E $Edate  -m "Sentinel-2" -F 'cloudcoverpercentage:[0 TO 99] AND filename:*$Tile*' -l 100 -q './OSquery-result.xml' -C './products-list.csv' 
+
+# Call by: qsub -t 1-number_jobs jobscript
