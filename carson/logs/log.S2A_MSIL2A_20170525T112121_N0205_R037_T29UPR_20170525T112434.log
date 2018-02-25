@@ -1,0 +1,15 @@
+--2018-02-20 11:46:44--  https://scihub.copernicus.eu/dhus/odata/v1/Products('7ac13441-e262-49e4-83ed-6c372a39799b')/$value
+Resolving scihub.copernicus.eu (scihub.copernicus.eu)... 131.176.236.28
+Connecting to scihub.copernicus.eu (scihub.copernicus.eu)|131.176.236.28|:443... connected.
+HTTP request sent, awaiting response... 401 Unauthorized
+Authentication selected: Basic realm="OData service"
+Reusing existing connection to scihub.copernicus.eu:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 58251721 (56M) [application/octet-stream]
+Saving to: ‘PRODUCT/S2A_MSIL2A_20170525T112121_N0205_R037_T29UPR_20170525T112434.zip’
+
+     0K .....                                                 100% 2.99M=19s
+
+Last-modified header invalid -- time-stamp ignored.
+2018-02-20 11:47:03 (2.99 MB/s) - ‘PRODUCT/S2A_MSIL2A_20170525T112121_N0205_R037_T29UPR_20170525T112434.zip’ saved [58251721/58251721]
+

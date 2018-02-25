@@ -19,7 +19,7 @@ DMYjd<-function(jd) {
 # Returns list of unique files meeting criteria - irrespective of file type
 # Criteria: product type, start and end dates as julian dates
 # If product=="" then returns all product types
-getfiles<-function(filelist.df,product,start.date,end.date){
+getfiles<-function(filelist.df,product,tile,start.date,end.date){
   if(product=="") res.df<-filelist.df[which(filelist.df$jdate>=start.date & filelist.df$jdate<=end.date),]
   if(product!="") res.df<-filelist.df[which(filelist.df$prod_type==product & filelist.df$jdate>=start.date & filelist.df$jdate<=end.date),]
   print(paste("Returning",nrow(res.df)," files"))
@@ -33,6 +33,11 @@ dirs<-c(  "/Volumes/Sentinel_Store/Sentinel/Sentinel_2/1C_Products",
              "/Volumes/Sentinel_Store/Sentinel/Sentinel_2/1C_Products_zip",
              "/Volumes/Sentinel_Store/Sentinel/Sentinel_2/2A_Products",
              "/Volumes/Sentinel_Store/Sentinel/Sentinel_2/2A_Products_zip" )
+
+dirs<-c(  "/Users/jm622/Sentinel/Sentinel-2/Level_2A",
+          "/Users/jm622/Sentinel/Sentinel-2/Level_2A_zip")
+
+
 
 for (n in 1:length(dirs)){
   dir_in<-dirs[n]
@@ -73,15 +78,36 @@ filelist.df$jdates<-JDdmy(filelist.df$day,filelist.df$month,filelist.df$year)
 #######################
 # Set parameters
 product<-""
-start.date<-JDdmy(1,1,2017)
-end.date<-JDdmy(31,12,2017)
+tile<-"UQS"
+start.date<-JDdmy(1,9,2017)
+end.date<-JDdmy(30,11,2017)
+for (tile in c("UQS","UQR","UPR","UUA","UUB","UVA","UVB") ){
+  # Get files meeting criteria and order by date
+  valid.files<-getfiles(filelist.df,product,start.date,end.date)
+  valid.files<-valid.files[valid.files$tile==tile,]
+  valid.files<- valid.files[order(valid.files$jdates),]
+  #print(valid.files)
+  # Number of files taken on same day (identical)
+  print(paste(tile,length(unique(valid.files$jdates))))
+}
 
-# Get files meeting criteria and order by date
-valid.files<-getfiles(filelist.df,product,start.date,end.date)
-valid.files<- valid.files[order(valid.files$jdates),]
-print(valid.files)
-
-
+product<-""
+start.dates<-c(JDdmy(1,3,2017),JDdmy(1,6,2017),JDdmy(1,9,2017),JDdmy(1,11,2017))
+end.dates<-c(JDdmy(31,5,2017),JDdmy(31,8,2017),JDdmy(30,11,2017),JDdmy(31,12,2017))
+for (d in 1:length(start.dates)){
+  start.date<-start.dates[d];
+  end.date<-end.dates[d]
+  print(paste(start.date,end.date))
+  for (tile in c("UQS","UQR","UPR","UUA","UUB","UVA","UVB") ){
+    # Get files meeting criteria and order by date
+    valid.files<-getfiles(filelist.df,product,start.date,end.date)
+    valid.files<-valid.files[valid.files$tile==tile,]
+    #valid.files<- valid.files[order(valid.files$jdates),]
+    #print(valid.files)
+    # Number of files taken on same day (identical)
+    print(paste("Quarter",d,"Tile",tile,"Number:",length(unique(valid.files$jdates))))
+  }
+}
 #######################
 # Create table of file type by date
 #######################
