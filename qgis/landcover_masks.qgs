@@ -5,7 +5,7 @@
   <evaluateDefaultValues active="0"/>
   <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="">
     <customproperties/>
-    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="cornwall_mainland_maxbuf_MHW_432620180213191418008" source="/Users/jm622/RProjects/landcover/masks/cornwall_mainland_maxbuf_MHW_4326/cornwall_mainland_maxbuf_MHW_4326.shp" name="cornwall_mainland_maxbuf_MHW_4326">
+    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Unchecked" id="cornwall_mainland_maxbuf_MHW_432620180213191418008" source="/Users/jm622/RProjects/landcover/masks/cornwall_mainland_maxbuf_MHW_4326/cornwall_mainland_maxbuf_MHW_4326.shp" name="cornwall_mainland_maxbuf_MHW_4326">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Unchecked" id="cornwall_mainland_MHWpolygon_432620180215113830033" source="/Users/jm622/RProjects/landcover/masks/cornwall_mainland_MHWpolygon_4326/cornwall_mainland_MHWpolygon_4326.shp" name="cornwall_mainland_MHWpolygon_4326">
@@ -26,10 +26,10 @@
     <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="Cornwall_mainland_15kmbuf_500m_432620180215120613152" source="/Users/jm622/RProjects/landcover/masks/Cornwall_mainland_15kmbuf_500m_4326.shp" name="Cornwall_mainland_15kmbuf_500m_4326">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="cornwall_mainland_15kmbuf_MHWpolygon20180215120023105" source="/Users/jm622/RProjects/landcover/masks/cornwall_mainland_15kmbuf_MHWpolygon/cornwall_mainland_15kmbuf_MHWpolygon.shp" name="cornwall_mainland_15kmbuf_MHWpolygon">
+    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Unchecked" id="cornwall_mainland_15kmbuf_MHWpolygon20180215120023105" source="/Users/jm622/RProjects/landcover/masks/cornwall_mainland_15kmbuf_MHWpolygon/cornwall_mainland_15kmbuf_MHWpolygon.shp" name="cornwall_mainland_15kmbuf_MHWpolygon">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="Cornwall_mainland_buffer500m_WGS84_EPSG432620180213190657012" source="/Users/jm622/RProjects/landcover/masks/SentinelMasks/Cornwall_mainland_buffer500m_WGS84_EPSG4326.shp" name="Cornwall_mainland_buffer500m_WGS84_EPSG4326">
+    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Unchecked" id="Cornwall_mainland_buffer500m_WGS84_EPSG432620180213190657012" source="/Users/jm622/RProjects/landcover/masks/SentinelMasks/Cornwall_mainland_buffer500m_WGS84_EPSG4326.shp" name="Cornwall_mainland_buffer500m_WGS84_EPSG4326">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Unchecked" id="NHS_England_Regions_April_2017_Full_Extent_Boundaries_in_England20180215104031985" source="/Users/jm622/Data/Key_Boundaries/NHS_England_Regions_April_2017_Full_Extent_Boundaries_in_England/NHS_England_Regions_April_2017_Full_Extent_Boundaries_in_England.shp" name="NHS_England_Regions_April_2017_Full_Extent_Boundaries_in_England">
@@ -40,10 +40,10 @@
   <mapcanvas>
     <units>degrees</units>
     <extent>
-      <xmin>-5.17040869191957597</xmin>
-      <ymin>50.07418767341012966</ymin>
-      <xmax>-4.26615549633915236</xmax>
-      <ymax>50.68847364314520831</ymax>
+      <xmin>-4.52827429621218958</xmin>
+      <ymin>49.92565440970579971</ymin>
+      <xmax>-3.54561616802960788</xmax>
+      <ymax>50.63009569892724926</ymax>
     </extent>
     <rotation>0</rotation>
     <projections>1</projections>
@@ -93,9 +93,9 @@
     </custom-order>
   </layer-tree-canvas>
   <legend updateDrawingOrder="true">
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="cornwall_mainland_maxbuf_MHW_4326" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="cornwall_mainland_maxbuf_MHW_4326" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="cornwall_mainland_maxbuf_MHW_432620180213191418008" visible="1"/>
+        <legendlayerfile isInOverview="0" layerid="cornwall_mainland_maxbuf_MHW_432620180213191418008" visible="0"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="cornwall_mainland_MHWpolygon_4326" showFeatureCount="0">
@@ -128,14 +128,14 @@
         <legendlayerfile isInOverview="0" layerid="Cornwall_mainland_15kmbuf_500m_432620180215120613152" visible="1"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="cornwall_mainland_15kmbuf_MHWpolygon" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="cornwall_mainland_15kmbuf_MHWpolygon" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="cornwall_mainland_15kmbuf_MHWpolygon20180215120023105" visible="1"/>
+        <legendlayerfile isInOverview="0" layerid="cornwall_mainland_15kmbuf_MHWpolygon20180215120023105" visible="0"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Cornwall_mainland_buffer500m_WGS84_EPSG4326" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="Cornwall_mainland_buffer500m_WGS84_EPSG4326" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="Cornwall_mainland_buffer500m_WGS84_EPSG432620180213190657012" visible="1"/>
+        <legendlayerfile isInOverview="0" layerid="Cornwall_mainland_buffer500m_WGS84_EPSG432620180213190657012" visible="0"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="NHS_England_Regions_April_2017_Full_Extent_Boundaries_in_England" showFeatureCount="0">
@@ -146,6 +146,12 @@
   </legend>
   <projectlayers>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <extent>
+        <xmin>-640535.79041261365637183</xmin>
+        <ymin>6438352.75058546289801598</ymin>
+        <xmax>-438619.90959579276386648</xmax>
+        <ymax>6626047.64817714039236307</ymax>
+      </extent>
       <id>Cornwall_mainland_15kmbuf_500m_432620180215120613152</id>
       <datasource>../masks/Cornwall_mainland_15kmbuf_500m_4326.shp</datasource>
       <keywordList>
@@ -224,7 +230,7 @@
         <multilineenabled fieldname="" on=""/>
         <selectedonly on=""/>
       </labelattributes>
-      <annotationform></annotationform>
+      <annotationform>.</annotationform>
       <aliases>
         <alias field="id" index="0" name=""/>
       </aliases>
@@ -234,10 +240,10 @@
       <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
         <columns/>
       </attributetableconfig>
-      <editform></editform>
+      <editform>.</editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
+      <editforminitfilepath>.</editforminitfilepath>
       <editforminitcode><![CDATA[]]></editforminitcode>
       <featformsuppress>0</featformsuppress>
       <editorlayout>generatedlayout</editorlayout>
@@ -809,6 +815,7 @@
       <SingleCategoryDiagramRenderer diagramType="Histogram" sizeLegend="0" attributeLegend="1">
         <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" sizeScale="0,0,0,0,0,0" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" lineSizeScale="0,0,0,0,0,0" sizeType="MM" lineSizeType="MM" minScaleDenominator="inf">
           <fontProperties description=".SF NS Text,13,-1,5,50,0,0,0,0,0" style=""/>
+          <attribute field="" color="#000000" label=""/>
         </DiagramCategory>
         <symbol alpha="1" clip_to_extent="1" type="marker" name="sizeSymbol">
           <layer pass="0" class="SimpleMarker" locked="0">
@@ -834,23 +841,23 @@
         </symbol>
       </SingleCategoryDiagramRenderer>
       <DiagramLayerSettings yPosColumn="-1" showColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
-      <annotationform></annotationform>
+      <annotationform>.</annotationform>
       <aliases>
         <alias field="id" index="0" name=""/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
-      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="32768">
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
         <columns>
           <column width="-1" hidden="0" type="field" name="id"/>
           <column width="-1" hidden="1" type="actions"/>
         </columns>
       </attributetableconfig>
-      <editform></editform>
+      <editform>.</editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
+      <editforminitfilepath>.</editforminitfilepath>
       <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
 """
 QGIS forms can have a Python function that is called when the form is
@@ -959,20 +966,20 @@ def my_form_open(dialog, layer, feature):
         <multilineenabled fieldname="" on=""/>
         <selectedonly on=""/>
       </labelattributes>
-      <annotationform></annotationform>
+      <annotationform>.</annotationform>
       <aliases>
         <alias field="id" index="0" name=""/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
-      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="32768">
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
         <columns/>
       </attributetableconfig>
-      <editform></editform>
+      <editform>.</editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
+      <editforminitfilepath>.</editforminitfilepath>
       <editforminitcode><![CDATA[]]></editforminitcode>
       <featformsuppress>0</featformsuppress>
       <editorlayout>generatedlayout</editorlayout>
@@ -1065,20 +1072,20 @@ def my_form_open(dialog, layer, feature):
         <multilineenabled fieldname="" on=""/>
         <selectedonly on=""/>
       </labelattributes>
-      <annotationform></annotationform>
+      <annotationform>.</annotationform>
       <aliases>
         <alias field="id" index="0" name=""/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
-      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="916979712">
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
         <columns/>
       </attributetableconfig>
-      <editform></editform>
+      <editform>.</editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
+      <editforminitfilepath>.</editforminitfilepath>
       <editforminitcode><![CDATA[]]></editforminitcode>
       <featformsuppress>0</featformsuppress>
       <editorlayout>generatedlayout</editorlayout>

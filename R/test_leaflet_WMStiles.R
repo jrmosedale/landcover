@@ -27,7 +27,8 @@ leaflet() %>% addTiles() %>% setView(map,lng=-5.0, lat = 50.2, zoom = 7)  %>%  a
   attribution = "", group="SWF")
 
 
-
+# Display extent of 3 probabilities of surface water flooding
+#
 # Surface water flooding
 leaflet() %>% addTiles() %>% setView(map,lng=-5.0, lat = 50.2, zoom = 7)  %>%  
   addWMSTiles(
