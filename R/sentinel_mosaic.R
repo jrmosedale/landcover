@@ -1,4 +1,5 @@
 library(raster)
+library(sf)
 dir_10m<-"/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170304Mosaic/10m_bands/"
 dir_in<-"/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170304Mosaic/Output_Tiles/"
 
@@ -9,10 +10,32 @@ UVA0326.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170326T112111_N0204_R037_T30UVA_201
 UVB0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVB_20170408T113407_10mbands.tif"))
 UUA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UUA_20170408T113407_10mbands.tif"))
 UUB0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UUB_20170408T113407_10mbands.tif"))
-mosaic10m.r<-mosaic(UVA0408.r, UVA0326.r, UVB0408, UUA0408, UUB0408, fun=mean)
-
+# Create mosaic of tiles - using mean for overlapping pixels
+mosaic10m.r<-mosaic(UVA0408.r, UVA0326.r, UVB0408.r, UUA0408.r, UUB0408.r, fun=mean)
+# load prev mosaic performed in SNAP
 mosaic0304.r<-brick(paste0(dir_in,"Cornwall_2017_0304_UUA_UUB_UVAx2_UVB_msizemosaic_blend_10mbands.tif"))
 
+
+# Load shape file mask as spdf
+dir_aoi<-"masks/"
+aoimask<-st_read(paste0(dir_aoi,"Cornwall_mainland_buffer500m_WGS84_EPSG4326.shp"))
+aoimask<-as(st_union(aoimask),"Spatial")
+plot(aoimask)
+
+# Reproject then crop and mask raster - WGS UTM30 projection
+aoimask<-spTransform(aoimask,crs(mosaic10m.r))
+cornwall_0304_10m.r <- crop(mosaic10m.r, extent(aoimask))
+cornwall_0304_10m.r <- mask(cornwall_0304_10m.r, aoimask)
+plotRGB(cornwall_0304_10m.r,r=3,g=2,b=1, stretch="hist")
+names(cornwall_0304_10m.r)<-c("B2","B3","B4","B8A")
+
+
+dir_out<-"/Volumes/Sentinel_Store/Sentinel/Sentinel_2/tif_data/"
+writeRaster(cornwall_0304_10m.r,paste0(dir_out,"cornwall_2017_0326-0408_500mbuffer.tif"))
+dir_out<-"rasters/"
+writeRaster(cornwall_0304_10m.r,paste0(dir_out,"cornwall_2017_0326-0408_500mbuffer.tif"))
+
+#  dir_out<-"rasters/";  cornwall_0304_10m.r<-brick(paste0(dir_out,"cornwall_2017_0326-0408_500mbuffer.tif"))
 
 # Create merged UVA tile
 UVAnew.r<-mosaic(UVA0408.r, UVA0326.r, fun=mean)
