@@ -1,13 +1,20 @@
 <!--
->> C:\Progra~1\snap\bin\gpt "G:\EOData\graphs\SplitS2_Graph.xml" -PtargetBasePath="G:\EOData\temp\S2A_MS
-IL1C_20160914T074612\S2A_MSIL1C_20160914T074612_N0204_R135_T36JTT_20160914T081456" "G:\EOData\S2\S2A_MSIL1C_20160914T074612_N0204_R135_T36JTT_20160914T081456.SAFE\MTD_MSIL1C.xml"
+>> C:\Progra~1\snap\bin\gpt "C:\Users\Marco\Desktop\SplitS2_Graph.xml" -PsourceFile="G:\S2\newS2Sample\S2A_MSIL1C_20160914T074612_N0204_R135_T36JTT_20160914T081456.SAFE\MTD_MSIL1C.xml" -PtargetbasePath="G:\EOData\temp\S2A_MS
+IL1C_20160914T074612\S2A_MSIL1C_20160914T074612_N0204_R135_T36JTT_20160914T081456"
 -->
 <graph id="Graph">
   <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters>
+      <file>${sourceFile}</file>
+    </parameters>
+  </node>
   <node id="Resample">
     <operator>Resample</operator>
     <sources>
-      <sourceProduct>${sourceProduct}</sourceProduct>
+      <sourceProduct refid="Read"/>
     </sources>
     <parameters>
       <referenceBand>B4</referenceBand>
@@ -37,7 +44,7 @@ IL1C_20160914T074612\S2A_MSIL1C_20160914T074612_N0204_R135_T36JTT_20160914T08145
       <sourceProduct refid="BandSelect"/>
     </sources>
     <parameters>
-      <file>${targetBasePath}_B1.tif</file>
+      <file>${targetbasePath}_B1.tif</file>
       <formatName>GeoTiff</formatName>
     </parameters>
   </node>
@@ -58,7 +65,7 @@ IL1C_20160914T074612\S2A_MSIL1C_20160914T074612_N0204_R135_T36JTT_20160914T08145
       <sourceProduct refid="BandSelect(2)"/>
     </sources>
     <parameters>
-      <file>${targetBasePath}_B2.tif</file>
+      <file>${targetbasePath}_B2.tif</file>
       <formatName>GeoTiff</formatName>
     </parameters>
   </node>

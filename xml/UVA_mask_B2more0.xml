@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Masks>
+  <Mask type="Maths">
+    <NAME value="new_mask_139" />
+    <MASK_RASTER_WIDTH value="10980" />
+    <MASK_RASTER_HEIGHT value="10980" />
+    <DESCRIPTION value="B2&gt;0.0001" />
+    <COLOR red="255" green="0" blue="0" alpha="255" />
+    <TRANSPARENCY value="0.5" />
+    <IMAGE_TO_MODEL_TRANSFORM value="10.0,0.0,0.0,-10.0,399960.0,5600040.0" />
+    <EXPRESSION value="B2&gt;0.0001" />
+  </Mask>
+</Masks>
+

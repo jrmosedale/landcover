@@ -1,0 +1,66 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170304Mosaic/Input_Tiles/S2A_MSIL2A_20170326T112111_N0204_R037_T30UVA_20170326T112108.SAFE</file>
+    </parameters>
+  </node>
+  <node id="Read(2)">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170304Mosaic/Input_Tiles/S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_20170408T113407.SAFE</file>
+    </parameters>
+  </node>
+  <node id="Multi-size Mosaic">
+    <operator>Multi-size Mosaic</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+      <sourceProduct.1 refid="Read(2)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <variables/>
+      <conditions/>
+      <combine>OR</combine>
+      <crs>EPSG:4326</crs>
+      <orthorectify>false</orthorectify>
+      <elevationModelName/>
+      <westBound>-15.0</westBound>
+      <northBound>75.0</northBound>
+      <eastBound>30.0</eastBound>
+      <southBound>35.0</southBound>
+      <pixelSizeX>0.005</pixelSizeX>
+      <pixelSizeY>0.005</pixelSizeY>
+      <resampling>Nearest</resampling>
+      <nativeResolution>true</nativeResolution>
+      <overlappingMethod>MOSAIC_TYPE_OVERLAY</overlappingMethod>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Multi-size Mosaic"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170304Mosaic/UVA/UVA/target.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+            <displayPosition x="86.0" y="92.0"/>
+    </node>
+    <node id="Read(2)">
+      <displayPosition x="102.0" y="187.0"/>
+    </node>
+    <node id="Multi-size Mosaic">
+      <displayPosition x="265.0" y="132.0"/>
+    </node>
+    <node id="Write">
+            <displayPosition x="495.0" y="162.0"/>
+    </node>
+  </applicationData>
+</graph>
