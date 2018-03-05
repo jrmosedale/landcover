@@ -17,11 +17,9 @@ DMYjd<-function(jd) {
 }
 
 # Returns list of unique files meeting criteria - irrespective of file type
-# Criteria: product type, start and end dates as julian dates
-# If product=="" then returns all product types
-getfiles<-function(filelist.df,product,tile,start.date,end.date){
-  if(product=="") res.df<-filelist.df[which(filelist.df$jdate>=start.date & filelist.df$jdate<=end.date),]
-  if(product!="") res.df<-filelist.df[which(filelist.df$prod_type==product & filelist.df$jdate>=start.date & filelist.df$jdate<=end.date),]
+# Criteria: start and end dates as julian dates
+getfiles<-function(filelist.df,start.date,end.date){
+  res.df<-filelist.df[which(filelist.df$jdate>=start.date & filelist.df$jdate<=end.date),]
   print(paste("Returning",nrow(res.df)," files"))
   return(res.df)
 }
@@ -37,13 +35,18 @@ dirs<-c(  "/Volumes/Sentinel_Store/Sentinel/Sentinel_2/1C_Products",
 dirs<-c(  "/Users/jm622/Sentinel/Sentinel-2/Level_2A",
           "/Users/jm622/Sentinel/Sentinel-2/Level_2A_zip")
 
-
+dirs<-c("/Volumes/Sentinel_Store/Sentinel/Sentinel_2/2A_Products",
+        "/Volumes/Sentinel_Store/Sentinel/Sentinel_2/2A_Products_zip" )
 
 for (n in 1:length(dirs)){
   dir_in<-dirs[n]
+  # remove path and save just dir name
+  pos = max(unlist(gregexpr('/',dir_in))) # find last /
+  dir_name<-substr(dir_in,pos+1,nchar(dir_in))
   print(dir_in)
   #list.files(dir_in)
   filelist<-list.files(dir_in)
+  product<-substr(filelist,1,60)
   satellite<-substr(filelist,1,3)
   s_type<-substr(filelist,5,8)
   prod_type<-substr(filelist,9,10)
@@ -54,13 +57,19 @@ for (n in 1:length(dirs)){
   tile<-substr(filelist,42,44)
   filetype<-substr(filelist,62,nchar(filelist))
 
-  files.df<-data.frame(rep(dir_in,length(filelist)),satellite, s_type, prod_type, zone, tile, day,month,year,filetype)
+  files.df<-data.frame(directory=rep(dir_name,length(filelist)),product,satellite, s_type, prod_type, zone, tile, day,month,year,filetype)
 
   if(n==1) filelist.df<-files.df else filelist.df<-rbind(filelist.df,files.df)
 
-  print(files.df)
+  #print(files.df)
 }
 print(filelist.df)
+unique_products<-length(unique(filelist.df$product))
+print(paste("Total number of products=",nrow(filelist.df)))
+print(paste("Number of different products=",unique_products))
+
+# Remove duplicated products
+filelist.df<-filelist.df[!duplicated(filelist.df$product), ]
 
 ######################
 # List types of file and location by date and tile
@@ -83,7 +92,7 @@ start.date<-JDdmy(1,9,2017)
 end.date<-JDdmy(30,11,2017)
 for (tile in c("UQS","UQR","UPR","UUA","UUB","UVA","UVB") ){
   # Get files meeting criteria and order by date
-  valid.files<-getfiles(filelist.df,product,start.date,end.date)
+  valid.files<-getfiles(filelist.df,start.date,end.date)
   valid.files<-valid.files[valid.files$tile==tile,]
   valid.files<- valid.files[order(valid.files$jdates),]
   #print(valid.files)
@@ -91,16 +100,15 @@ for (tile in c("UQS","UQR","UPR","UUA","UUB","UVA","UVB") ){
   print(paste(tile,length(unique(valid.files$jdates))))
 }
 
-product<-""
 start.dates<-c(JDdmy(1,3,2017),JDdmy(1,6,2017),JDdmy(1,9,2017),JDdmy(1,11,2017))
 end.dates<-c(JDdmy(31,5,2017),JDdmy(31,8,2017),JDdmy(30,11,2017),JDdmy(31,12,2017))
 for (d in 1:length(start.dates)){
   start.date<-start.dates[d];
   end.date<-end.dates[d]
   print(paste(start.date,end.date))
-  for (tile in c("UQS","UQR","UPR","UUA","UUB","UVA","UVB") ){
+  for (tile in c("UPR","UQR","UQS","UUA","UUB","UVA","UVB") ){
     # Get files meeting criteria and order by date
-    valid.files<-getfiles(filelist.df,product,start.date,end.date)
+    valid.files<-getfiles(filelist.df,start.date,end.date)
     valid.files<-valid.files[valid.files$tile==tile,]
     #valid.files<- valid.files[order(valid.files$jdates),]
     #print(valid.files)
