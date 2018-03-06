@@ -6,7 +6,7 @@
 ############################################
  
 # adapt this path to your needs
-gptPath=gpt
+gptPath="/Applications/snap/bin/gpt"
  
 ############################################
 # Command line handling
@@ -32,12 +32,16 @@ targetDirectory="$3"
 ############################################
  
 # Create the target directory
-mkdir -p "${targetDirectory}"
  
 IFS=$'\n'
 for F in $(ls -1 "${sourceDirectory}"); do
+  # Write input file path and name
   sourceFile="${sourceDirectory}/${F}"
-  targetFile="${targetDirectory}/${F}"
-  procCmd="\"${gptPath}\" \"${graphXmlPath}\" -PsourceFile= \"${sourceFile}\" -PtargetFile= \"${targetFile}\""
+  # Remove file extension and save name
+  filename=$(echo $F | cut -f 1 -d '.')
+  # write filename - gpt will complete filename
+  targetFile="${targetDirectory}/${filename}"
+  # write command for calling gpt with correct parameters
+  procCmd="${gptPath} \"${graphXmlPath}\" -PsourceFile=\"${sourceFile}\" -PtargetFile=\"${targetFile}\" "
   "${procCmd}"
 done
