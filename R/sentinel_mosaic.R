@@ -112,7 +112,7 @@ plotRGB(crop(UVA0617.r,e),r=3,g=2,b=3,stretch="hist")
 plotRGB(crop(UVA0525.r,e),r=3,g=2,b=3,stretch="hist")
 
 # Mosaic
-mosaic10m.r<-mosaic(UVA0617.r, UVA0525.r, UVB0617.r, UUA0408.r, UUA0617.r, UUBfinal,fun=mean)
+mosaic10m.r<-mosaic(UVA0617.r, UVA0525.r, UVB0617.r, UUA0617.r, UUBfinal,fun=mean)
 
 
 # 3. Load Cornwall shape file mask as spdf
@@ -132,7 +132,7 @@ names(cornwall_0506_10m.r)<-c("B2","B3","B4","B8")
 
 
 dir_out<-"/Volumes/Sentinel_Store/Sentinel/Sentinel_2/tif_data/"
-writeRaster(cornwall_0506_10m.r,paste0(dir_out,"cornwall_2017_0525-0617_10mbands_500mbuffer.tif"))
+writeRaster(cornwall_0506_10m.r,paste0(dir_out,"cornwall_2017_0525-0617_10mbands_500mbuffer.tif"),overwrite=TRUE)
 dir_out<-"rasters/"
 writeRaster(cornwall_0506_10m.r,paste0(dir_out,"cornwall_2017_0525-0617_10mbands_500mbuffer.tif"),overwrite=TRUE)
 
@@ -169,14 +169,14 @@ plotRGB(crop(UUB0617.r,aoi.e),r=3,g=2,b=3,stretch="hist")
 plotRGB(crop(UUBfinal,aoi.e),r=3,g=2,b=3,stretch="hist")
 
 # 2. Create mosaic of tiles - using mean for overlapping pixels
-mosaic20m.r<-mosaic(UVA0617.r, UVA0525.r, UVB0617.r, UUA0408.r, UUA0617.r, UUBfinal,fun=mean)
+mosaic20m.r<-mosaic(UVA0617.r, UVA0525.r, UVB0617.r, UUA0617.r, UUBfinal,fun=mean)
 
 # 3. Use same Cornwall shape file mask
 
 # 4. Reproject then crop and mask raster - WGS UTM30 projection
 #dir_out<-"rasters/"
 aoimask<-spTransform(aoimask,crs(mosaic20m.r))
-cornwall_0506_20m.r <- crop(mosaic10m.r, extent(aoimask))
+cornwall_0506_20m.r <- crop(mosaic20m.r, extent(aoimask))
 cornwall_0506_20m.r <- mask(cornwall_0506_20m.r, aoimask)
 names(cornwall_0506_20m.r)<-c("B5","B6","B7","B8A","B11","B12")
 # Plot
@@ -185,9 +185,9 @@ plotRGB(cornwall_0506_20m.r,r=3,g=2,b=1, stretch="hist")
 
 # Write rasters
 dir_out<-"/Volumes/Sentinel_Store/Sentinel/Sentinel_2/tif_data/"
-writeRaster(cornwall_0506_10m.r,paste0(dir_out,"cornwall_2017_0525-0617_20mbands_500mbuffer.tif"))
+writeRaster(cornwall_0506_20m.r,paste0(dir_out,"cornwall_2017_0525-0617_20mbands_500mbuffer.tif"))
 dir_out<-"rasters/"
-writeRaster(cornwall_0506_10m.r,paste0(dir_out,"cornwall_2017_0525-0617_20mbands_500mbuffer.tif"))
+writeRaster(cornwall_0506_20m.r,paste0(dir_out,"cornwall_2017_0525-0617_20mbands_500mbuffer.tif"))
 
 
 
