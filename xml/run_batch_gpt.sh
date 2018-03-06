@@ -1,12 +1,10 @@
 #!/bin/bash
-#
- 
 ############################################
 # User Configuration
 ############################################
- 
+
 # adapt this path to your needs
-gptPath=gpt
+gptPath=/Applications/snap/bin/gpt
  
 ############################################
 # Command line handling
@@ -37,7 +35,8 @@ mkdir -p "${targetDirectory}"
 IFS=$'\n'
 for F in $(ls -1 "${sourceDirectory}"); do
   sourceFile="${sourceDirectory}/${F}"
-  targetFile="${targetDirectory}/${F}"
-  procCmd="\"${gptPath}\" \"${graphXmlPath}\" -PsourceFile= \"${sourceFile}\" -PtargetFile= \"${targetFile}\""
-  "${procCmd}"
+  filename=$(echo $F |cut -f 1 -d '.')
+  targetFile="${targetDirectory}/${filename}"
+  procCmd="${gptPath} \"${graphXmlPath}\" -PsourceFile=\"${sourceFile}\" -PtargetFile=\"${targetFile}_rsmpsset_20mbands.tif\""
+  ${procCmd}
 done

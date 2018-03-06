@@ -139,14 +139,18 @@ writeRaster(cornwall_0506_10m.r,paste0(dir_out,"cornwall_2017_0525-0617_10mbands
 ##########################
 ### Repeat for other resolutions
 ##########################
-UVA0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UVA_20170617T113319_20mbands.tif"))
-UVA0525.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170525T112121_N0205_R037_T30UVA_20170525T112434_20mbands.tif"))
-UVB0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UVB_20170617T113319_20mbands.tif"))
-UUA0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UUA_20170617T113319_20mbands.tif"))
-UUB0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UUB_20170617T113319_20mbands.tif"))
-UUB0614.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170614T112111_N0205_R037_T30UUB_20170614T112422_20mbands.tif"))
+dir_in<-"/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170506Mosaic/Outputs/"
+
+UVA0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UVA_20170617T113319_rsmpsset_20mbands.tif"))
+UVA0525.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170525T112121_N0205_R037_T30UVA_20170525T112434_rsmpsset_20mbands.tif"))
+UVB0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UVB_20170617T113319_rsmpsset_20mbands.tif"))
+UUA0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UUA_20170617T113319_rsmpsset_20mbands.tif"))
+UUB0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UUB_20170617T113319_rsmpsset_20mbands.tif"))
+UUB0614.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170614T112111_N0205_R037_T30UUB_20170614T112422_rsmpsset_20mbands.tif"))
 
 # Overlay plots to check correct
+clouds<-spTransform(clouds, crs(UUB0617.r))
+
 par(mfrow=c(1,1))
 plot(crop(raster(UUB0617.r,layer=1),extent(clouds)))
 plot(clouds,add=TRUE,col="red")
@@ -159,19 +163,19 @@ plot(crop(notcloudy,aoi.e))
 UUBfinal<-merge(notcloudy,UUB0614.r)
 plotRGB(crop(UUBfinal,aoi.e),r=3,g=2,b=3,stretch="hist")
 
-# Compare before and after
+# Compare before and after - not great!!
 par(mfrow=c(1,2))
 plotRGB(crop(UUB0617.r,aoi.e),r=3,g=2,b=3,stretch="hist")
 plotRGB(crop(UUBfinal,aoi.e),r=3,g=2,b=3,stretch="hist")
 
 # 2. Create mosaic of tiles - using mean for overlapping pixels
-mosaic10m.r<-mosaic(UVA0617.r, UVA0525.r, UVB0617.r, UUA0408.r, UUA0617.r, UUBfinal,fun=mean)
+mosaic20m.r<-mosaic(UVA0617.r, UVA0525.r, UVB0617.r, UUA0408.r, UUA0617.r, UUBfinal,fun=mean)
 
 # 3. Use same Cornwall shape file mask
 
 # 4. Reproject then crop and mask raster - WGS UTM30 projection
 #dir_out<-"rasters/"
-aoimask<-spTransform(aoimask,crs(mosaic10m.r))
+aoimask<-spTransform(aoimask,crs(mosaic20m.r))
 cornwall_0506_20m.r <- crop(mosaic10m.r, extent(aoimask))
 cornwall_0506_20m.r <- mask(cornwall_0506_20m.r, aoimask)
 names(cornwall_0506_20m.r)<-c("B5","B6","B7","B8A","B11","B12")
