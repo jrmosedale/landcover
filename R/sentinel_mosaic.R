@@ -141,12 +141,12 @@ writeRaster(cornwall_0506_10m.r,paste0(dir_out,"cornwall_2017_0525-0617_10mbands
 ##########################
 dir_in<-"/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170506Mosaic/Outputs/"
 
-UVA0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UVA_20170617T113319_rsmpsset_20mbands.tif"))
-UVA0525.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170525T112121_N0205_R037_T30UVA_20170525T112434_rsmpsset_20mbands.tif"))
-UVB0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UVB_20170617T113319_rsmpsset_20mbands.tif"))
-UUA0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UUA_20170617T113319_rsmpsset_20mbands.tif"))
-UUB0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UUB_20170617T113319_rsmpsset_20mbands.tif"))
-UUB0614.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170614T112111_N0205_R037_T30UUB_20170614T112422_rsmpsset_20mbands.tif"))
+UVA0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UVA_20170617T113319_20mbands.tif"))
+UVA0525.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170525T112121_N0205_R037_T30UVA_20170525T112434_20mbands.tif"))
+UVB0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UVB_20170617T113319_20mbands.tif"))
+UUA0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UUA_20170617T113319_20mbands.tif"))
+UUB0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UUB_20170617T113319_20mbands.tif"))
+UUB0614.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170614T112111_N0205_R037_T30UUB_20170614T112422_20mbands.tif"))
 
 # Overlay plots to check correct
 clouds<-spTransform(clouds, crs(UUB0617.r))
