@@ -1,0 +1,52 @@
+Apple_PubSub_Socket_Render=/private/tmp/com.apple.launchd.quxxpQEVLo/Render
+BASH=/bin/bash
+BASH_ARGC=([0]="3")
+BASH_ARGV=([0]="/Users/jm622/Sentinel/Sentinel-2/20170506Mosaic/Outputs" [1]="/Users/jm622/Sentinel/Sentinel-2/20170506Mosaic/Inputs" [2]="/Users/jm622/Rprojects/landcover/xml/S2_export_10_20_60m_bands_tif.xml")
+BASH_LINENO=([0]="0")
+BASH_SOURCE=([0]="run_batch_gpt.sh")
+BASH_VERSINFO=([0]="3" [1]="2" [2]="57" [3]="1" [4]="release" [5]="x86_64-apple-darwin16")
+BASH_VERSION='3.2.57(1)-release'
+DIRSTACK=()
+DISPLAY=/private/tmp/com.apple.launchd.xeIxfGLthe/org.macosforge.xquartz:0
+EUID=501
+F=S2A_MSIL2A_20170617T113321_N0205_R080_T30UVA_20170617T113319.SAFE
+GROUPS=()
+HOME=/Users/jm622
+HOSTNAME=Jonathans-MacBook-Pro.local
+HOSTTYPE=x86_64
+IFS=$'\n'
+LANG=en_GB.UTF-8
+LOGNAME=jm622
+MACHTYPE=x86_64-apple-darwin16
+OPTERR=1
+OPTIND=1
+OSTYPE=darwin16
+PATH=/Applications/snap/bin:/opt/local/bin:/opt/local/sbin:/Users/jm622/anaconda/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+PIPESTATUS=([0]="0")
+PPID=25469
+PS4='+ '
+PWD=/Users/jm622/Rprojects/landcover/xml
+SHELL=/bin/bash
+SHELLOPTS=braceexpand:hashall:interactive-comments
+SHLVL=2
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.rrXeqNyw6x/Listeners
+TERM=xterm-256color
+TERM_PROGRAM=Apple_Terminal
+TERM_PROGRAM_VERSION=388.1.1
+TERM_SESSION_ID=ADD2BB30-C214-4435-AD81-F0E1194D7E0B
+TMPDIR=/var/folders/s1/_t3ypxrx78lbvqx8xtxnkrjc0000gn/T/
+UID=501
+USER=jm622
+XPC_FLAGS=0x0
+XPC_SERVICE_NAME=0
+_=
+__CF_USER_TEXT_ENCODING=0x1F5:0x0:0x2
+filename=S2A_MSIL2A_20170617T113321_N0205_R080_T30UVA_20170617T113319
+gptPath=/Applications/snap/bin/gpt
+graphXmlPath=/Users/jm622/Rprojects/landcover/xml/S2_export_10_20_60m_bands_tif.xml
+procCmd='/Applications/snap/bin/gpt "/Users/jm622/Rprojects/landcover/xml/S2_export_10_20_60m_bands_tif.xml" -PsourceFile="/Users/jm622/Sentinel/Sentinel-2/20170506Mosaic/Inputs/S2A_MSIL2A_20170617T113321_N0205_R080_T30UVA_20170617T113319.SAFE" -PtargetFile="/Users/jm622/Sentinel/Sentinel-2/20170506Mosaic/Outputs/S2A_MSIL2A_20170617T113321_N0205_R080_T30UVA_20170617T113319" '
+result=
+sourceDirectory=/Users/jm622/Sentinel/Sentinel-2/20170506Mosaic/Inputs
+sourceFile=/Users/jm622/Sentinel/Sentinel-2/20170506Mosaic/Inputs/S2A_MSIL2A_20170617T113321_N0205_R080_T30UVA_20170617T113319.SAFE
+targetDirectory=/Users/jm622/Sentinel/Sentinel-2/20170506Mosaic/Outputs
+targetFile=/Users/jm622/Sentinel/Sentinel-2/20170506Mosaic/Outputs/S2A_MSIL2A_20170617T113321_N0205_R080_T30UVA_20170617T113319

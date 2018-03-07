@@ -1,0 +1,172 @@
+Apple_PubSub_Socket_Render=/private/tmp/com.apple.launchd.quxxpQEVLo/Render
+BASH=/bin/bash
+BASH_ARGC=()
+BASH_ARGV=()
+BASH_LINENO=()
+BASH_REMATCH=([0]="l")
+BASH_SOURCE=()
+BASH_VERSINFO=([0]="3" [1]="2" [2]="57" [3]="1" [4]="release" [5]="x86_64-apple-darwin16")
+BASH_VERSION='3.2.57(1)-release'
+COLUMNS=182
+DIRSTACK=()
+DISPLAY=/private/tmp/com.apple.launchd.xeIxfGLthe/org.macosforge.xquartz:0
+EUID=501
+GROUPS=()
+HISTFILE=/Users/jm622/.bash_sessions/ADD2BB30-C214-4435-AD81-F0E1194D7E0B.historynew
+HISTFILESIZE=500
+HISTSIZE=500
+HOME=/Users/jm622
+HOSTNAME=Jonathans-MBP.home
+HOSTTYPE=x86_64
+IFS=$' \t\n'
+LANG=en_GB.UTF-8
+LINES=40
+LOGNAME=jm622
+MACHTYPE=x86_64-apple-darwin16
+MAILCHECK=60
+OLDPWD=/Users/jm622/Rprojects/landcover
+OPTERR=1
+OPTIND=1
+OSTYPE=darwin16
+PATH=/Applications/snap/bin:/opt/local/bin:/opt/local/sbin:/Users/jm622/anaconda/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+PIPESTATUS=([0]="1")
+PPID=25468
+PROMPT_COMMAND=update_terminal_cwd
+PS1='\h:\W \u\$ '
+PS2='> '
+PS4='+ '
+PWD=/Users/jm622/Rprojects/landcover/xml
+SHELL=/bin/bash
+SHELLOPTS=braceexpand:emacs:hashall:histexpand:history:interactive-comments:monitor
+SHELL_SESSION_DID_HISTORY_CHECK=1
+SHELL_SESSION_DID_INIT=1
+SHELL_SESSION_DIR=/Users/jm622/.bash_sessions
+SHELL_SESSION_FILE=/Users/jm622/.bash_sessions/ADD2BB30-C214-4435-AD81-F0E1194D7E0B.session
+SHELL_SESSION_HISTFILE=/Users/jm622/.bash_sessions/ADD2BB30-C214-4435-AD81-F0E1194D7E0B.history
+SHELL_SESSION_HISTFILE_NEW=/Users/jm622/.bash_sessions/ADD2BB30-C214-4435-AD81-F0E1194D7E0B.historynew
+SHELL_SESSION_HISTFILE_SHARED=/Users/jm622/.bash_history
+SHELL_SESSION_HISTORY=1
+SHELL_SESSION_TIMESTAMP_FILE=/Users/jm622/.bash_sessions/_expiration_check_timestamp
+SHLVL=1
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.rrXeqNyw6x/Listeners
+TERM=xterm-256color
+TERM_PROGRAM=Apple_Terminal
+TERM_PROGRAM_VERSION=388.1.1
+TERM_SESSION_ID=ADD2BB30-C214-4435-AD81-F0E1194D7E0B
+TMPDIR=/var/folders/s1/_t3ypxrx78lbvqx8xtxnkrjc0000gn/T/
+UID=501
+USER=jm622
+XPC_FLAGS=0x0
+XPC_SERVICE_NAME=0
+_=/Users/jm622/Sentinel/Sentinel-2/20170506Mosaic/Outputs
+__CF_USER_TEXT_ENCODING=0x1F5:0x0:0x2
+shell_session_delete_expired () 
+{ 
+    if ( [ ! -e "$SHELL_SESSION_TIMESTAMP_FILE" ] || [ -z "$(find "$SHELL_SESSION_TIMESTAMP_FILE" -mtime -1d)" ] ); then
+        local expiration_lock_file="$SHELL_SESSION_DIR/_expiration_lockfile";
+        if shlock -f "$expiration_lock_file" -p $$; then
+            echo -n 'Deleting expired sessions...';
+            local delete_count=$(find "$SHELL_SESSION_DIR" -type f -mtime +2w -print -delete | wc -l);
+            [ "$delete_count" -gt 0 ] && echo $delete_count' completed.' || echo 'none found.';
+            ( umask 077;
+            touch "$SHELL_SESSION_TIMESTAMP_FILE" );
+            rm "$expiration_lock_file";
+        fi;
+    fi
+}
+shell_session_history_allowed () 
+{ 
+    if [ -n "$HISTFILE" ]; then
+        local allowed=0;
+        if shopt -q histappend || [ -n "$HISTTIMEFORMAT" ]; then
+            allowed=${SHELL_SESSION_HISTORY:-0};
+        else
+            allowed=${SHELL_SESSION_HISTORY:=1};
+        fi;
+        if [ $allowed -eq 1 ]; then
+            return 0;
+        fi;
+    fi;
+    return 1
+}
+shell_session_history_check () 
+{ 
+    if [ ${SHELL_SESSION_DID_HISTORY_CHECK:-0} -eq 0 ]; then
+        SHELL_SESSION_DID_HISTORY_CHECK=1;
+        if shell_session_history_allowed; then
+            shell_session_history_enable;
+        fi;
+        if [ "$PROMPT_COMMAND" = "shell_session_history_check" ]; then
+            unset PROMPT_COMMAND;
+        else
+            if [[ $PROMPT_COMMAND =~ (.*)(; *shell_session_history_check *| *shell_session_history_check *; *)(.*) ]]; then
+                PROMPT_COMMAND="${BASH_REMATCH[1]}${BASH_REMATCH[3]}";
+            fi;
+        fi;
+    fi
+}
+shell_session_history_enable () 
+{ 
+    ( umask 077;
+    touch "$SHELL_SESSION_HISTFILE_NEW" );
+    HISTFILE="$SHELL_SESSION_HISTFILE_NEW";
+    SHELL_SESSION_HISTORY=1
+}
+shell_session_save () 
+{ 
+    if [ -n "$SHELL_SESSION_FILE" ]; then
+        echo -n 'Saving session...';
+        ( umask 077;
+        echo 'echo Restored session: "$(date -r '$(date +%s)')"' >|"$SHELL_SESSION_FILE" );
+        declare -F shell_session_save_user_state > /dev/null && shell_session_save_user_state;
+        shell_session_history_allowed && shell_session_save_history;
+        echo 'completed.';
+    fi
+}
+shell_session_save_history () 
+{ 
+    shell_session_history_enable;
+    history -a;
+    if [ -f "$SHELL_SESSION_HISTFILE_SHARED" ] && [ ! -s "$SHELL_SESSION_HISTFILE" ]; then
+        echo -ne '\n...copying shared history...';
+        ( umask 077;
+        cp "$SHELL_SESSION_HISTFILE_SHARED" "$SHELL_SESSION_HISTFILE" );
+    fi;
+    echo -ne '\n...saving history...';
+    ( umask 077;
+    cat "$SHELL_SESSION_HISTFILE_NEW" >> "$SHELL_SESSION_HISTFILE_SHARED" );
+    ( umask 077;
+    cat "$SHELL_SESSION_HISTFILE_NEW" >> "$SHELL_SESSION_HISTFILE" );
+    : >|"$SHELL_SESSION_HISTFILE_NEW";
+    if [ -n "$HISTFILESIZE" ]; then
+        echo -n 'truncating history files...';
+        HISTFILE="$SHELL_SESSION_HISTFILE_SHARED";
+        HISTFILESIZE="$HISTFILESIZE";
+        HISTFILE="$SHELL_SESSION_HISTFILE";
+        HISTFILESIZE="$size";
+        HISTFILE="$SHELL_SESSION_HISTFILE_NEW";
+    fi;
+    echo -ne '\n...'
+}
+shell_session_update () 
+{ 
+    shell_session_save && shell_session_delete_expired
+}
+update_terminal_cwd () 
+{ 
+    local url_path='';
+    { 
+        local i ch hexch LC_CTYPE=C LC_ALL=;
+        for ((i = 0; i < ${#PWD}; ++i))
+        do
+            ch="${PWD:i:1}";
+            if [[ "$ch" =~ [/._~A-Za-z0-9-] ]]; then
+                url_path+="$ch";
+            else
+                printf -v hexch "%02X" "'$ch";
+                url_path+="%${hexch: -2:2}";
+            fi;
+        done
+    };
+    printf '\e]7;%s\a' "file://$HOSTNAME$url_path"
+}
