@@ -1,0 +1,15 @@
+#!/bin/bash 
+#$ -N run_parameter_gpt
+#$ -S /bin/bash
+#$ -cwd
+#$ -o $HOME/sentinel/scripts/outputs
+#$ -e $HOME/sentinel/scripts/outputs
+# SUBMIT  qsub -v GRAPH="S2_export_60m_bands_tif.xml" run_parameter_gpt.sub
+
+if [ "x" == "x$GRAPH" ] ; then
+     echo "Graph is not set"
+else
+     echo "Year says: $GRAPH"
+fi
+bash run_parameter_gpt.sh $GRAPH 
+

@@ -1,0 +1,9 @@
+#!/bin/bash 
+#$ -N run_jobarray_gpt
+#$ -S /bin/bash
+#$ -cwd
+#$ -o $HOME/sentinel/scripts/outputs
+#$ -e $HOME/sentinel/scripts/outputs
+# Submit with below
+# qsub -t 1:2 -v GRAPH="/home/ISAD/jm622/sentinel/graphs_xml/S2_export_60m_bands_tif.xml" -v SOURCE="/home/ISAD/jm622/sentinel/graphs_xml/testin" -v TARGET="/home/ISAD/jm622/sentinel/graphs_xml/testout/" run_jobarray_gpt.sub 
+bash run_jobarray_gpt.sh $1 $GRAPH $SOURCE $TARGET

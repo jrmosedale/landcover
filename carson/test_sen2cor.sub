@@ -1,0 +1,8 @@
+#!/bin/bash 
+#$ -N test_sen2cor
+#$ -S /bin/bash
+#$ -cwd
+#$ -o $HOME/sentinel/scripts/outputs
+#$ -e $HOME/sentinel/scripts/outputs
+
+bash test_sen2cor.sh

@@ -12,16 +12,16 @@
 ############################################
  
 # first parameter is a path to the graph xml
-graphXmlPath="$1"
-echo $1
+graphXmlPath=$GRAPH
+echo $GRAPH
  
 # use third parameter for path to source products
-sourceDirectory="$2"
-echo $2
+sourceDirectory=$SOURCE
+echo $SOURCE
  
 # use fourth parameter for path to target products
-targetDirectory="$3"
-echo $3 
+targetDirectory=$TARGET
+echo $TARGET
  
 ############################################
 # Helper functions
@@ -31,7 +31,14 @@ echo $3
 ############################################
 # Main processing
 ############################################
- 
+WKDIR=$HOME"/sentinel/graphs_xml" # location of graph xml script
+echo "WKDIR= "$WKDIR
+cd $WKDIR
+
+. /etc/profile.d/modules.sh
+module add shared esa-snap
+module load shared gdal
+which gpt
 # Create the target directory
  
 IFS=$'\n'
@@ -44,8 +51,10 @@ for F in $(ls -1 "${sourceDirectory}"); do
   targetFile="${targetDirectory}/${filename}"
   # write command for calling gpt with correct parameters
   #procCmd="/Applications/snap/bin/gpt \"${graphXmlPath}\" -PsourceFile=\"${sourceFile}\" -PtargetFile=\"${targetFile}\" "
-  procCmd="${gptPath} \"${graphXmlPath}\" -PsourceFile=\"${sourceFile}\" -PtargetFile=\"${targetFile}\" "
+  procCmd="gpt $graphXmlPath -PsourceFile=\"${sourceFile}\" -PtargetFile=\"${targetFile}\" "
 
- #${procCmd}
  eval "$procCmd"
 done
+
+
+

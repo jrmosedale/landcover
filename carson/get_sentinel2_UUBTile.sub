@@ -1,5 +1,5 @@
 #!/bin/bash  
-#$ -N get_sentinel_byTile
+#$ -N get_sentinel_byTile_UUB
 #$ -S /bin/bash  
 #$ -cwd
 #$ -o $HOME/sentinel/scripts/outputs
@@ -13,10 +13,10 @@
 # Query for getting product list
 #bash dhusget.sh -T S2MSI2Ap -S 2017-12-01T00:00:00.000Z -E 2017-12-31T00:00:00.000Z  -m "Sentinel-2" -F 'cloudcoverpercentage:[0 TO 90] AND filename:*_T30UUA_*' -l 100 -q './OSquery-result.xml' -C './products-list.csv' 
 # Query to download products
-bash dhusget.sh -T S2MSI2Ap -S 2017-12-01T00:00:00.000Z -E 2017-12-03T00:00:00.000Z  -m "Sentinel-2" -F 'cloudcoverpercentage:[0 TO 90] AND filename:*_T30UUA_*' -l 100 -q './OSquery-result.xml' -C './products-list.csv' -o 'product' -O "/home/ISAD/jm622/sentinel/S2_2A_Products/UUA"
+bash /home/ISAD/jm622/sentinel/scripts/dhusget.sh -T S2MSI2Ap -S 2017-01-01T00:00:00.000Z -E 2017-12-31T00:00:00.000Z  -m "Sentinel-2" -F 'cloudcoverpercentage:[0 TO 90] AND filename:*_T30UUB_*' -l 100 --q './OSquery-result.xml' -C './products-list.csv' -o 'product' -O "/home/ISAD/jm622/sentinel/S2_2A_Products/UUB"
 
 
--O
+
 # submit by qsub  get_sentinel2_byTile.sub 
 
 

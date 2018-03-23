@@ -3,7 +3,7 @@
     <Log_Level>INFO</Log_Level>
     <!-- NOTSET, DEBUG, INFO, WARNING, ERROR, CRITICAL -->
     <Display_Data>true</Display_Data>
-    <Target_Directory>Sentinel/Sentinel-2/Sen2Three_Outputs</Target_Directory>
+    <Target_Directory></Target_Directory>
     <PSD_Scheme PSD_Version="13" PSD_Reference="S2-PDGS-TAS-DI-PSD-V13.1_Schema">
       <UP_Scheme_2A>S2_User_Product_Level-2A_Metadata.xsd</UP_Scheme_2A>
       <UP_Scheme_3>S2_User_Product_Level-3_Metadata.xsd</UP_Scheme_3>
