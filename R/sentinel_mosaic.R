@@ -24,7 +24,7 @@ mosaic10m.r<-mosaic(UVA0408.r, UVA0326.r, UVB0408.r, UUA0408.r, UUB0408.r, fun=m
 #mosaic0304.r<-brick(paste0(dir_in,"Cornwall_2017_0304_UUA_UUB_UVAx2_UVB_msizemosaic_blend_10mbands.tif"))
 
 # Load shape file mask as spdf
-dir_aoi<-"masks/"
+dir_aoi<-"/Users/jonathanmosedale/Rprojects/landcover/masks/"
 aoimask<-st_read(paste0(dir_aoi,"Cornwall_mainland_buffer500m_WGS84_EPSG4326.shp"))
 aoimask<-as(st_union(aoimask),"Spatial")
 plot(aoimask)
