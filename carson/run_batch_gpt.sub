@@ -6,4 +6,9 @@
 #$ -e $HOME/sentinel/scripts/outputs
 # SUBMIT  qsub -v GRAPH="/home/ISAD/jm622/sentinel/graphs_xml/S2_export_60m_bands_tif.xml" -v SOURCE="/home/ISAD/jm622/sentinel/graphs_xml/testin" -v TARGET="/home/ISAD/jm622/sentinel/graphs_xml/testout/" run_batch_gpt.sub
 # NOT job array - single job repeats for all files in source directory
+
+
+
+
+
 bash run_batch_gpt.sh $GRAPH $SOURCE $TARGET

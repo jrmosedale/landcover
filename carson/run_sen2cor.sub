@@ -4,6 +4,6 @@
 #$ -cwd
 #$ -o $HOME/sentinel/scripts/outputs
 #$ -e $HOME/sentinel/scripts/outputs
-# SUBMIT  qsub -v GRAPH="/home/ISAD/jm622/sentinel/graphs_xml/S2_export_60m_bands_tif.xml" -v SOURCE="/home/ISAD/jm622/sentinel/graphs_xml/testin" -v TARGET="/home/ISAD/jm622/sentinel/graphs_xml/testout/" run_batch_gpt.sub
+# SUBMIT  qsub run_sen2cor.sub
 # NOT job array - single job repeats for all files in source directory
 bash /home/ISAD/jm622/sentinel/Sen2Cor-2.4.0-Linux64/bin/L2A_Process /home/ISAD/jm622/sentinel/S2_1C_Products/UUA/S2A_MSIL1C_20161216T112452_N0204_R037_T30UUA_20161216T112624.SAFE --resolution=60
