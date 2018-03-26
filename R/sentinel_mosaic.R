@@ -6,21 +6,32 @@ library(gdalUtils)
 ######################################################
 # Mosaic March-April 2017
 ######################################################
-dir_10m<-"/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170304Mosaic/10m_bands/"
-dir_in<-"/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170304Mosaic/Output_Tiles/"
+dir_in<-"/Users/jm622/Sentinel/Sentinel-2/20170304Mosaic/Outputs/"
 
 # list.files(dir_in)
-#UVA0408.orig<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_20170408T113407_10mbands.tif"))
-UVA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_edgemasks_msk10m.tif"))
+# Need to mask invalid pixels !!!!!
+UVA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_20170408T113407_resampled_msk_10mBands.tif"))
+#UVA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_20170408T113407_10mbands.tif"))
 UVA0326.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170326T112111_N0204_R037_T30UVA_20170326T112108_10mbands.tif"))
 UVB0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVB_20170408T113407_10mbands.tif"))
 UUA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UUA_20170408T113407_10mbands.tif"))
 UUB0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UUB_20170408T113407_10mbands.tif"))
-# Create mosaic of tiles - using mean for overlapping pixels
-mosaic10m.r<-mosaic(UVA0408.r, UVA0326.r, UVB0408.r, UUA0408.r, UUB0408.r, fun=mean)
-# load prev mosaic performed in SNAP
-mosaic0304.r<-brick(paste0(dir_in,"Cornwall_2017_0304_UUA_UUB_UVAx2_UVB_msizemosaic_blend_10mbands.tif"))
 
+# Mask non-vlid pixels from UVA0408
+
+#msk.r<-calc(raster(UVA0408.r,1),fun=function(x){ifelse(x>0.0001,1,NA)})
+#UVA0408final.r<-mask(UVA0408.r,msk.r)
+#par(mfrow=c(1,2))
+#plotRGB(crop(UVA0408final.r,extent(400000,410000,5550000,5560000)),r=3,g=2,b=3,stretch="hist",add=TRUE)
+plotRGB(crop(UVA0408.r,extent(400000,410000,5550000,5560000)),r=3,g=2,b=3,stretch="hist")
+#compareRaster(UVA0408final.r,UVA0408.r,values=TRUE)
+
+# Create mosaic of tiles - using mean for overlapping pixels
+mosaic10m.r<-mosaic(UUA0408.r, UVA0326.r, UVB0408.r, UVA0408.r, UUB0408.r, fun=mean)
+plotRGB(crop(mosaic10m.r,extent(400000,410000,5550000,5560000)),r=3,g=2,b=3,stretch="hist")
+
+# load prev mosaic performed in SNAP
+#mosaic0304.r<-brick(paste0(dir_in,"Cornwall_2017_0304_UUA_UUB_UVAx2_UVB_msizemosaic_blend_10mbands.tif"))
 
 # Load shape file mask as spdf
 dir_aoi<-"masks/"
@@ -30,33 +41,112 @@ plot(aoimask)
 
 # Reproject then crop and mask raster - WGS UTM30 projection
 aoimask<-spTransform(aoimask,crs(mosaic10m.r))
+
 cornwall_0304_10m.r <- crop(mosaic10m.r, extent(aoimask))
 cornwall_0304_10m.r <- mask(cornwall_0304_10m.r, aoimask)
+
+par(mfrow=c(1,1))
 plotRGB(cornwall_0304_10m.r,r=3,g=2,b=1, stretch="hist")
 names(cornwall_0304_10m.r)<-c("B2","B3","B4","B8")
 
 
-dir_out<-"/Volumes/Sentinel_Store/Sentinel/Sentinel_2/tif_data/"
-writeRaster(cornwall_0304_10m.r,paste0(dir_out,"cornwall_2017_0326-0408_10mbands_500mbuffer.tif"))
+dir_out<-"/Volumes/Sentinel_Store/Sentinel/Sentinel_2/20170304Mosaic/Rmosaics/"
+writeRaster(cornwall_0304_10m.r,paste0(dir_out,"cornwall_2017_0326-0408_10mbands_500mbuffer.tif"),overwrite=TRUE)
 dir_out<-"rasters/"
+writeRaster(cornwall_0304_10m.r,paste0(dir_out,"cornwall_2017_0326-0408_10mbands_500mbuffer.tif"),overwrite=TRUE)
+dir_out<-"/Volumes/Pocket_Sam/Data/Sentinel_2/20170304Mosaic/Rmosaics/"
 writeRaster(cornwall_0304_10m.r,paste0(dir_out,"cornwall_2017_0326-0408_10mbands_500mbuffer.tif"),overwrite=TRUE)
 
 ######################################################
-# Other resolutions
+# 20m resolutions
 ######################################################
 #list.files(dir_in)
-#UVA0408.orig<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_20170408T113407_10mbands.tif"))
-UVA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_edgemasks_msk20m.tif"))
+UVA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_20170408T113407_resampled_msk_20mBands.tif"))
 UVA0326.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170326T112111_N0204_R037_T30UVA_20170326T112108_20mbands.tif"))
 UVB0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVB_20170408T113407_20mbands.tif"))
 UUA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UUA_20170408T113407_20mbands.tif"))
 UUB0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UUB_20170408T113407_20mbands.tif"))
+plotRGB(crop(UVA0408.r,extent(400000,410000,5550000,5560000)),r=3,g=2,b=3,stretch="hist")
+
+# Create mosaic of tiles - using mean for overlapping pixels
+mosaic20m.r<-mosaic(UVA0408.r, UVA0326.r, UVB0408.r, UUA0408.r, UUB0408.r, fun=mean)
+
+# Load shape file mask as spdf
+dir_aoi<-"masks/"
+aoimask<-st_read(paste0(dir_aoi,"Cornwall_mainland_buffer500m_WGS84_EPSG4326.shp"))
+aoimask<-as(st_union(aoimask),"Spatial")
+plot(aoimask)
+
+# Reproject then crop and mask raster - WGS UTM30 projection
+aoimask<-spTransform(aoimask,crs(mosaic20m.r))
+
+cornwall_0304_20m.r <- crop(mosaic20m.r, extent(aoimask))
+cornwall_0304_20m.r <- mask(cornwall_0304_20m.r, aoimask)
+
+par(mfrow=c(1,1))
+plotRGB(cornwall_0304_20m.r,r=3,g=2,b=1, stretch="hist")
+names(cornwall_0304_20m.r)<-c("B5","B6","B7","B8A","B11","B12")
+
+
+dir_out<-"/Volumes/Sentinel_Store/Sentinel/Sentinel_2/20170304Mosaic/Rmosaics/"
+writeRaster(cornwall_0304_20m.r,paste0(dir_out,"cornwall_2017_0326-0408_20mbands_500mbuffer.tif"),overwrite=TRUE)
+dir_out<-"rasters/"
+writeRaster(cornwall_0304_20m.r,paste0(dir_out,"cornwall_2017_0326-0408_20mbands_500mbuffer.tif"),overwrite=TRUE)
+dir_out<-"/Volumes/Pocket_Sam/Data/Sentinel_2/20170304Mosaic/Rmosaics/"
+writeRaster(cornwall_0304_20m.r,paste0(dir_out,"cornwall_2017_0326-0408_20mbands_500mbuffer.tif"),overwrite=TRUE)
+
+
+######################################################
+# 60m resolutions
+######################################################
+#list.files(dir_in)
+UVA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_20170408T113407_resampled_msk_60mBands.tif"))
+UVA0326.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170326T112111_N0204_R037_T30UVA_20170326T112108_60mbands.tif"))
+UVB0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVB_20170408T113407_60mbands.tif"))
+UUA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UUA_20170408T113407_60mbands.tif"))
+UUB0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UUB_20170408T113407_60mbands.tif"))
+par(mfrow=c(1,1))
+plot(crop(raster(UVA0408.r,2),extent(400000,410000,5550000,5560000)))
+
+# Create mosaic of tiles - using mean for overlapping pixels
+mosaic60m.r<-mosaic(UVA0408.r, UVA0326.r, UVB0408.r, UUA0408.r, UUB0408.r, fun=mean)
+
+# Load shape file mask as spdf
+dir_aoi<-"masks/"
+aoimask<-st_read(paste0(dir_aoi,"Cornwall_mainland_buffer500m_WGS84_EPSG4326.shp"))
+aoimask<-as(st_union(aoimask),"Spatial")
+plot(aoimask)
+
+# Reproject then crop and mask raster - WGS UTM30 projection
+aoimask<-spTransform(aoimask,crs(mosaic60m.r))
+
+cornwall_0304_60m.r <- crop(mosaic60m.r, extent(aoimask))
+cornwall_0304_60m.r <- mask(cornwall_0304_60m.r, aoimask)
+
+par(mfrow=c(1,1))
+plot(raster(cornwall_0304_60m.r,2))
+plot(crop(raster(cornwall_0304_60m.r,2),extent(400000,430000,5570000,5590000)))
+
+names(cornwall_0304_60m.r)<-c("B1","B9")
+
+
+dir_out<-"/Volumes/Sentinel_Store/Sentinel/Sentinel_2/20170304Mosaic/Rmosaics/"
+writeRaster(cornwall_0304_60m.r,paste0(dir_out,"cornwall_2017_0326-0408_60mbands_500mbuffer.tif"),overwrite=TRUE)
+dir_out<-"rasters/"
+writeRaster(cornwall_0304_60m.r,paste0(dir_out,"cornwall_2017_0326-0408_60mbands_500mbuffer.tif"),overwrite=TRUE)
+dir_out<-"/Volumes/Pocket_Sam/Data/Sentinel_2/20170304Mosaic/Rmosaics/"
+writeRaster(cornwall_0304_60m.r,paste0(dir_out,"cornwall_2017_0326-0408_60mbands_500mbuffer.tif"),overwrite=TRUE)
+
+
+
 
 
 
 
 ############################################################################################################
+#
 # Mosaic May-June 2017
+#
 ############################################################################################################
 dir_in<-"/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170506Mosaic/Outputs/"
 
@@ -130,14 +220,16 @@ par(mfrow=c(1,1))
 plotRGB(cornwall_0506_10m.r,r=3,g=2,b=1, stretch="hist")
 names(cornwall_0506_10m.r)<-c("B2","B3","B4","B8")
 
-
 dir_out<-"/Volumes/Sentinel_Store/Sentinel/Sentinel_2/tif_data/"
 writeRaster(cornwall_0506_10m.r,paste0(dir_out,"cornwall_2017_0525-0617_10mbands_500mbuffer.tif"),overwrite=TRUE)
 dir_out<-"rasters/"
 writeRaster(cornwall_0506_10m.r,paste0(dir_out,"cornwall_2017_0525-0617_10mbands_500mbuffer.tif"),overwrite=TRUE)
 
+par(mfrow=c(2,2))
+plot(cornwall_0506_10m.r)
+
 ##########################
-### Repeat for other resolutions
+### Repeat for 20m resolutions
 ##########################
 dir_in<-"/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170506Mosaic/Outputs/"
 
@@ -185,12 +277,68 @@ plotRGB(cornwall_0506_20m.r,r=3,g=2,b=1, stretch="hist")
 
 # Write rasters
 dir_out<-"/Volumes/Sentinel_Store/Sentinel/Sentinel_2/tif_data/"
-writeRaster(cornwall_0506_20m.r,paste0(dir_out,"cornwall_2017_0525-0617_20mbands_500mbuffer.tif"))
+writeRaster(cornwall_0506_20m.r,paste0(dir_out,"cornwall_2017_0525-0617_20mbands_500mbuffer.tif"),overwrite=TRUE)
 dir_out<-"rasters/"
-writeRaster(cornwall_0506_20m.r,paste0(dir_out,"cornwall_2017_0525-0617_20mbands_500mbuffer.tif"))
+writeRaster(cornwall_0506_20m.r,paste0(dir_out,"cornwall_2017_0525-0617_20mbands_500mbuffer.tif"),overwrite=TRUE)
+
+# Print all bands on same page
+par(mfrow=c(2,3))
+plot(cornwall_0506_20m.r)
+
+##########################
+### Repeat for 60m resolutions
+##########################
+dir_in<-"/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170506Mosaic/Outputs/"
+
+UVA0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UVA_20170617T113319_60mbands.tif"))
+UVA0525.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170525T112121_N0205_R037_T30UVA_20170525T112434_60mbands.tif"))
+UVB0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UVB_20170617T113319_60mbands.tif"))
+UUA0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UUA_20170617T113319_60mbands.tif"))
+UUB0617.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170617T113321_N0205_R080_T30UUB_20170617T113319_60mbands.tif"))
+UUB0614.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170614T112111_N0205_R037_T30UUB_20170614T112422_60mbands.tif"))
+
+# Overlay plots to check correct
+clouds<-spTransform(clouds, crs(UUB0617.r))
+
+par(mfrow=c(1,1))
+plot(crop(raster(UUB0617.r,layer=1),extent(clouds)))
+plot(clouds,add=TRUE,col="red")
+
+# replace values of every band using rasterized mask
+cloud.msk<-rasterize(clouds,UUB0617.r)
+aoi.e<-extent(clouds)
+notcloudy<-mask(UUB0617.r,cloud.msk,inverse=TRUE)
+plot(crop(notcloudy,aoi.e))
+UUBfinal<-merge(notcloudy,UUB0614.r)
 
 
+# Compare before and after - not great!!
+par(mfrow=c(1,2))
+plot(crop(UUB0617.r,aoi.e),1)
+plot(crop(UUBfinal,aoi.e),1)
 
+# 2. Create mosaic of tiles - using mean for overlapping pixels
+mosaic60m.r<-mosaic(UVA0617.r, UVA0525.r, UVB0617.r, UUA0617.r, UUBfinal,fun=mean)
+
+# 3. Use same Cornwall shape file mask
+
+# 4. Reproject then crop and mask raster - WGS UTM30 projection
+#dir_out<-"rasters/"
+aoimask<-spTransform(aoimask,crs(mosaic60m.r))
+cornwall_0506_60m.r <- crop(mosaic60m.r, extent(aoimask))
+cornwall_0506_60m.r <- mask(cornwall_0506_60m.r, aoimask)
+names(cornwall_0506_60m.r)<-c("B1","B9")
+
+
+# Write rasters
+dir_out<-"/Volumes/Sentinel_Store/Sentinel/Sentinel_2/20170506Mosaic/Rmosaics/"
+writeRaster(cornwall_0506_60m.r,paste0(dir_out,"cornwall_2017_0525-0617_60mbands_500mbuffer.tif"),overwrite=TRUE)
+dir_out<-"rasters/"
+writeRaster(cornwall_0506_60m.r,paste0(dir_out,"cornwall_2017_0525-0617_60mbands_500mbuffer.tif"),overwrite=TRUE)
+
+# Plot on 1 page both bands
+par(mfrow=c(1,2))
+plot(cornwall_0506_60m.r)
 
 
 ##########################

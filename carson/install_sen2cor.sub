@@ -1,0 +1,7 @@
+#!/bin/bash 
+#$ -N install_sen2cor
+#$ -S /bin/bash
+#$ -cwd
+#$ -o $HOME/sentinel/scripts/outputs
+#$ -e $HOME/sentinel/scripts/outputs
+bash /home/ISAD/jm622/sentinel/Sen2Cor-2.4.0-Linux64.run

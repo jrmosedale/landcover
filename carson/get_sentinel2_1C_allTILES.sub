@@ -1,0 +1,10 @@
+#!/bin/bash  
+#$ -N get_sentinel2_1C_allTILES
+#$ -S /bin/bash  
+#$ -cwd
+#$ -o $HOME/sentinel/scripts/outputs
+#$ -e $HOME/sentinel/scripts/outputs
+bash /home/ISAD/jm622/sentinel/scripts/dhusget.sh -T S2MSI1C -S 2016-09-30T00:00:00.000Z -E 2017-04-01T00:00:00.000Z  -m "Sentinel-2" -F 'cloudcoverpercentage:[0 TO 90] AND filename:*_T30UUA_*' -l 100 --q './OSquery-result.xml' -C './products-list.csv' -o 'product' -O "/home/ISAD/jm622/sentinel/S2_1C_Products/UUA"
+bash /home/ISAD/jm622/sentinel/scripts/dhusget.sh -T S2MSI1C -S 2016-09-30T00:00:00.000Z -E 2017-04-01T00:00:00.000Z  -m "Sentinel-2" -F 'cloudcoverpercentage:[0 TO 90] AND filename:*_T30UUB_*' -l 100 --q './OSquery-result.xml' -C './products-list.csv' -o 'product' -O "/home/ISAD/jm622/sentinel/S2_1C_Products/UUB"
+bash /home/ISAD/jm622/sentinel/scripts/dhusget.sh -T S2MSI1C -S 2016-09-30T00:00:00.000Z -E 2017-04-01T00:00:00.000Z  -m "Sentinel-2" -F 'cloudcoverpercentage:[0 TO 90] AND filename:*_T30UVA_*' -l 100 --q './OSquery-result.xml' -C './products-list.csv' -o 'product' -O "/home/ISAD/jm622/sentinel/S2_1C_Products/UVA"
+bash /home/ISAD/jm622/sentinel/scripts/dhusget.sh -T S2MSI1C -S 2016-09-30T00:00:00.000Z -E 2017-04-01T00:00:00.000Z  -m "Sentinel-2" -F 'cloudcoverpercentage:[0 TO 90] AND filename:*_T30UVB_*' -l 100 --q './OSquery-result.xml' -C './products-list.csv' -o 'product' -O "/home/ISAD/jm622/sentinel/S2_1C_Products/UVB"
