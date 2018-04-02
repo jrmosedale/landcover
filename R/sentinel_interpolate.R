@@ -13,13 +13,39 @@ library(rgeos)
 library(raster)
 library(ggplot2)
 library(sf)
-library(lwgeom)
 
 # Get parameters - SOURCE dir, TARGET dir, TILE, RESolution
 param.res<-c(10,20,60)
 param.source<-"/home/ISAD/jm622/sentinel/S2_2A_Products/UUA"
 param.target<-"/home/ISAD/jm622/sentinel/S2_timeseries_2017/UUA"
 #param.tile<-c("UUA","UUB","UVA","UVB") # and scilly isles tiles
+
+
+### Load raster stasks
+r1_10m.stack<-brick("/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/tiff_files/S2A_MSIL2A_20170306T112111_N0204_R037_T30UUA_20170306T112106_10mbands.tif")
+names(r1_10m.stack)<-c("B2","B3","B4","B8","scene_classif","cloud_confid","wvp","snow_confid")
+
+### Test - load 20m tile
+r1.stack<-brick("/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/tiff_files/S2A_MSIL2A_20170306T112111_N0204_R037_T30UUA_20170306T112106_20mbands.tif")
+r2.stack<-brick("/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/tiff_files/S2A_MSIL2A_20170326T112111_N0204_R037_T30UUA_20170326T112108_20mbands.tif")
+names(r1.stack)<-c("B5","B6","B7","B8A","B11","B12","scene_classif","cloud_confid","wvp","snow_confid")
+names(r2.stack)<-c("B5","B6","B7","B8A","B11","B12","scene_classif","cloud_confid","wvp","snow_confid")
+
+
+### Scene classifier
+scene.classes<-c("Defective","Dark","Cloud_shadow",
+                 "Vegetation","Bare_soil","Water",
+                 "Cloud_lowP","Cloud_medmP","Cloud_highP",
+                 "Cirrus","Snow" )
+
+
+# Define valid pixels - rank suitability
+
+
+
+# Calculate dates of first and last valid pixels and total number of valid pixels within time range
+
+
 
 # Define sample days of year for output
 # divisers of 366: 1 2 3 6 61 122 183 366

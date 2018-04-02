@@ -339,7 +339,7 @@ sf_to_raster<-function(shapedata,template.r){
   # Force multipolygons to polygons
   shapedata <- st_cast(shapedata, "POLYGON")
   #Add variable ID holding numeric identifier for each polygon from rownames
-  ID<-as.numeric(rownames(shapedata)))
+  ID<-as.numeric(rownames(shapedata))
   # Rasterize giving same value to pixels of the same woodland polygon. Non-woodland=NA
   data.r<-rasterize(shapedata,template.r,field=ID)
   return(data.r)
