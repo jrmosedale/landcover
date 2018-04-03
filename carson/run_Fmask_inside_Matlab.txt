@@ -1,0 +1,6 @@
+
+addpath /home/ISAD/jm622/sentinel/FmaskMSI
+autoFmask InputPath/S2A_MSIL1C_PRODUCT.SAFE/GRANULE/L1C_T30UUA_A007756_20161216T112624 OutputDirectory=/home/ISAD/jm622/sentinel
+
+fileattrib('/home/ISAD/jm622/sentinel','+w')
+autoFmask /home/ISAD/jm622/sentinel/S2A_MSIL1C_20171201T112431_N0206_R037_T30UUA_20171201T114409.SAFE/GRANULE/L1C_T30UUA_A012761_20171201T112642 /home/ISAD/jm622/sentinel/outputs

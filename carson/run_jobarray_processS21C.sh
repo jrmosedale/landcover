@@ -1,4 +1,6 @@
 #!/bin/bash 
+# Submit: autoFmask /home/ISAD/jm622/sentinel/S2_1C_Products/test/S2A_MSIL1C_20161216T112452_N0204_R037_T30UUA_20161216T112624.SAFE/GRANULE/L1C_T30UUA_A007756_20161216T112624 /home/ISAD/jm622/sentinel/FmaskMSI
+# 1. Unzips 2. Runs FMask 3. Runs Sen2Cor
 echo "Source directory="$SOURCE
 
 # PREPARE SOURCE FILE
@@ -16,8 +18,10 @@ FILENAME=$(echo ${FILEARRAY[$FILENUMBER]})
 zipFile=${FILENAME}
 
 echo "Opening zip file: "$zipFile
-# unzip sourceFile 
- unzip $zipFile -d $SOURCE 
+# 1.Unzip sourceFile 
+unzip $zipFile -d $SOURCE 
+# Remove zipFile?
+# rm -r $zipFile
 
 # Determine SAFE filename
 # Remove file extension and save name
@@ -26,7 +30,15 @@ sourceFile=${FileStub}.SAFE
 
 echo "Processing source file: "$sourceFile
 
-# write command for calling sen2cor with correct parameters
+# 2. Run Fmask
+InDir=$(ls -1 ${sourceFile}/GRANULE/L1C*)
+
+addpath /home/ISAD/jm622/sentinel/FmaskMSI
+# addpath ${outDir}
+autoFmask $InDir OutputDirectory=/home/ISAD/jm622/sentinel/fmask_output
+
+
+# Write command for calling sen2cor with correct parameters creating 2A Product
 # procCmd="bash /home/ISAD/jm622/sentinel/Sen2Cor-2.4.0-Linux64/bin/L2A_Process ${sourceFile} --resolution=60"
 procCmd="bash /home/ISAD/jm622/sentinel/Sen2Cor-2.4.0-Linux64/bin/L2A_Process ${sourceFile} "
 # echo $procCmd

@@ -1,24 +1,24 @@
 #!/bin/bash
 ############################################
 # User Configuration
-# Call by: /Applications/snap/bin/gpt "/Users/jm622/Rprojects/landcover/xml/extract_to_tif_files.xml" -PsourceFile="/Users/jm622/Sentinel/Sentinel-2/20170506Mosaic/Inputs/S2A_MSIL2A_20170525T112121_N0205_R037_T30UVA_20170525T112434.SAFE" -PtargetFile="/Users/jm622/Sentinel/Sentinel-2/20170506Mosaic/Outputs/S2A_MSIL2A_20170525T112121_N0205_R037_T30UVA_20170525T112434"
+# Call from .sub file 
 ############################################
 
 # adapt this path to your needs
- gptPath=/Applications/snap/bin/gpt
+gptPath=/Applications/snap/bin/gpt
  
 ############################################
 # Command line handling
 ############################################
 # first parameter is a path to the graph xml
 graphXmlPath=$GRAPH
-echo $GRAPH
+echo $graphXmlPath
 # use third parameter for path to source products
 sourceDirectory=$SOURCE
-echo $SOURCE
+echo $sourceDirectory
 # use fourth parameter for path to target products
 targetDirectory=$TARGET
-echo $TARGET
+echo $targetDirectory
  
 WKDIR=$HOME"/sentinel/graphs_xml" # location of graph xml script
 echo "WKDIR= "$WKDIR
@@ -27,7 +27,7 @@ cd $WKDIR
 # CALCULATE PARAMETERS for target and source files
 ############################################
 # PREPARE SOURCE FILE
-FILELIST=$(ls -1 $SOURCE)
+FILELIST=$(ls -1 $sourceDirectory)
 FILEARRAY=($FILELIST)
 
 # Find out number of files in directory

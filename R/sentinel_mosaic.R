@@ -3,22 +3,24 @@ library(sf)
 library(rgeos)
 library(sp)
 library(gdalUtils)
+
 ######################################################
 # Mosaic March-April 2017
 ######################################################
-dir_in<-"/Users/jm622/Sentinel/Sentinel-2/20170304Mosaic/Outputs/"
-
+dir_10m<-"/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170304Mosaic/10m_bands/"
+dir_in<-"/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-2/20170304Mosaic/Outputs/"
+# dir_in<-"/Users/jm622/Sentinel/Sentinel-2/20170304Mosaic/Outputs/"# list.files(dir_in)
 # list.files(dir_in)
+
 # Need to mask invalid pixels !!!!!
 UVA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_20170408T113407_resampled_msk_10mBands.tif"))
-#UVA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_20170408T113407_10mbands.tif"))
+# UVA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_20170408T113407_10mbands.tif"))
 UVA0326.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170326T112111_N0204_R037_T30UVA_20170326T112108_10mbands.tif"))
 UVB0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVB_20170408T113407_10mbands.tif"))
 UUA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UUA_20170408T113407_10mbands.tif"))
 UUB0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UUB_20170408T113407_10mbands.tif"))
 
-# Mask non-vlid pixels from UVA0408
-
+# Mask non-vlid pixels from UVA0408 defunct
 #msk.r<-calc(raster(UVA0408.r,1),fun=function(x){ifelse(x>0.0001,1,NA)})
 #UVA0408final.r<-mask(UVA0408.r,msk.r)
 #par(mfrow=c(1,2))
@@ -31,10 +33,10 @@ mosaic10m.r<-mosaic(UUA0408.r, UVA0326.r, UVB0408.r, UVA0408.r, UUB0408.r, fun=m
 plotRGB(crop(mosaic10m.r,extent(400000,410000,5550000,5560000)),r=3,g=2,b=3,stretch="hist")
 
 # load prev mosaic performed in SNAP
-#mosaic0304.r<-brick(paste0(dir_in,"Cornwall_2017_0304_UUA_UUB_UVAx2_UVB_msizemosaic_blend_10mbands.tif"))
+# mosaic0304.r<-brick(paste0(dir_in,"Cornwall_2017_0304_UUA_UUB_UVAx2_UVB_msizemosaic_blend_10mbands.tif"))
 
 # Load shape file mask as spdf
-dir_aoi<-"masks/"
+dir_aoi<-"/Users/jonathanmosedale/Rprojects/landcover/masks/"
 aoimask<-st_read(paste0(dir_aoi,"Cornwall_mainland_buffer500m_WGS84_EPSG4326.shp"))
 aoimask<-as(st_union(aoimask),"Spatial")
 plot(aoimask)
@@ -62,6 +64,7 @@ writeRaster(cornwall_0304_10m.r,paste0(dir_out,"cornwall_2017_0326-0408_10mbands
 ######################################################
 #list.files(dir_in)
 UVA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_20170408T113407_resampled_msk_20mBands.tif"))
+#UVA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVA_20170408T113407_20mbands.tif"))
 UVA0326.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170326T112111_N0204_R037_T30UVA_20170326T112108_20mbands.tif"))
 UVB0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UVB_20170408T113407_20mbands.tif"))
 UUA0408.r<-brick(paste0(dir_in,"S2A_MSIL2A_20170408T113321_N0204_R080_T30UUA_20170408T113407_20mbands.tif"))
@@ -129,17 +132,12 @@ plot(crop(raster(cornwall_0304_60m.r,2),extent(400000,430000,5570000,5590000)))
 
 names(cornwall_0304_60m.r)<-c("B1","B9")
 
-
 dir_out<-"/Volumes/Sentinel_Store/Sentinel/Sentinel_2/20170304Mosaic/Rmosaics/"
 writeRaster(cornwall_0304_60m.r,paste0(dir_out,"cornwall_2017_0326-0408_60mbands_500mbuffer.tif"),overwrite=TRUE)
 dir_out<-"rasters/"
 writeRaster(cornwall_0304_60m.r,paste0(dir_out,"cornwall_2017_0326-0408_60mbands_500mbuffer.tif"),overwrite=TRUE)
 dir_out<-"/Volumes/Pocket_Sam/Data/Sentinel_2/20170304Mosaic/Rmosaics/"
 writeRaster(cornwall_0304_60m.r,paste0(dir_out,"cornwall_2017_0326-0408_60mbands_500mbuffer.tif"),overwrite=TRUE)
-
-
-
-
 
 
 
@@ -247,7 +245,7 @@ par(mfrow=c(1,1))
 plot(crop(raster(UUB0617.r,layer=1),extent(clouds)))
 plot(clouds,add=TRUE,col="red")
 
-# replace values of every band using rasterized mask
+# Replace values of every band using rasterized mask
 cloud.msk<-rasterize(clouds,UUB0617.r)
 aoi.e<-extent(clouds)
 notcloudy<-mask(UUB0617.r,cloud.msk,inverse=TRUE)
@@ -311,7 +309,6 @@ notcloudy<-mask(UUB0617.r,cloud.msk,inverse=TRUE)
 plot(crop(notcloudy,aoi.e))
 UUBfinal<-merge(notcloudy,UUB0614.r)
 
-
 # Compare before and after - not great!!
 par(mfrow=c(1,2))
 plot(crop(UUB0617.r,aoi.e),1)
@@ -329,7 +326,6 @@ cornwall_0506_60m.r <- crop(mosaic60m.r, extent(aoimask))
 cornwall_0506_60m.r <- mask(cornwall_0506_60m.r, aoimask)
 names(cornwall_0506_60m.r)<-c("B1","B9")
 
-
 # Write rasters
 dir_out<-"/Volumes/Sentinel_Store/Sentinel/Sentinel_2/20170506Mosaic/Rmosaics/"
 writeRaster(cornwall_0506_60m.r,paste0(dir_out,"cornwall_2017_0525-0617_60mbands_500mbuffer.tif"),overwrite=TRUE)
@@ -345,11 +341,6 @@ plot(cornwall_0506_60m.r)
 # NOTES
 ##########################
 # if you have many RasterLayer objects in a list
-# you can use do.call:
-x <- list(r1, r2)
+# you can use do.call: x <- list(r1, r2)
 # add arguments such as filename
-# x$filename <-
-'
-test.tif
-'
-m <- do.call(merge, x)
+# x$filename <-'test.tif'; m <- do.call(merge, x)

@@ -29,7 +29,7 @@
       <sourceProduct refid="Resample10m"/>
     </sources>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <sourceBands>B2,B3,B4,B8</sourceBands>
+      <sourceBands>B2,B3,B4,B8,quality_scene_classification,quality_cloud_confidence,quality_wvp,quality_snow_confidence</sourceBands>
       <region></region>
       <geoRegion/>
       <subSamplingX>1</subSamplingX>
@@ -71,7 +71,7 @@
       <sourceProduct refid="Resample20m"/>
     </sources>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <sourceBands>B5,B6,B7,B8A,B11,B12</sourceBands>
+      <sourceBands>B5,B6,B7,B8A,B11,B12,quality_scene_classification,quality_cloud_confidence,quality_wvp,quality_snow_confidence</sourceBands>
       <region></region>
       <geoRegion/>
       <subSamplingX>1</subSamplingX>

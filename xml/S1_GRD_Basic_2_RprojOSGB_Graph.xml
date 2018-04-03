@@ -4,8 +4,7 @@
     <operator>Read</operator>
     <sources/>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <file>/Volumes/Pocket Sam/Data/Sentinel_1/IW_GRDH_Products/S1A_IW_GRDH_1SDV_20170411T180524_20170411T180549_016100_01A95C_24C9.zip</file>
-      <formatName>SENTINEL-1</formatName>
+      <file>/Volumes/Pocket_Sam/Data/Sentinel_1/IW_GRDH_Products/S1A_IW_GRDH_1SDV_20170411T180524_20170411T180549_016100_01A95C_24C9.zip</file>
     </parameters>
   </node>
   <node id="Apply-Orbit-File">
@@ -146,7 +145,7 @@
       <sourceProduct refid="Reproject"/>
     </sources>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <file>/Users/jonathanmosedale/Documents/Exeter/Sentinel/Sentinel-1/Outputs/projected_S1A_IW_GRDH_1SDV_20170411T180524_20170411T180549_016100_01A95C_24C9_Orb_Cal_TF_TC.dim</file>
+      <file>/Users/jm622/Sentinel/Sentinel-1/Process_Outputs/projected_S1A_IW_GRDH_1SDV_20170411T180524_20170411T180549_016100_01A95C_24C9_Orb_Cal_TF_TC.dim</file>
       <formatName>BEAM-DIMAP</formatName>
     </parameters>
   </node>
@@ -174,7 +173,7 @@
       <displayPosition x="642.0" y="175.0"/>
     </node>
     <node id="Write">
-      <displayPosition x="698.0" y="82.0"/>
+      <displayPosition x="610.0" y="74.0"/>
     </node>
   </applicationData>
 </graph>
