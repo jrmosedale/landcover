@@ -490,21 +490,22 @@ writeRaster(seminatgrass.r,file=paste0(dir_out,"seminatgrass.r_training.tif") )
 #From CEH data
 igrass1<-cehlc.aoi[cehlc.aoi$bhab %in% c("Improved grassland"),]
 igrass1<-st_cast(igrass1, "POLYGON")
-# From 2017 crop data
-crops.aoi.merge<-crops.aoi %>% group_by(LUCODE) %>%  summarise()
-# Extract grassland
-sel<-which(crops.aoi.merge$LUCODE=="PG01")
-crop.grass<-crops.aoi.merge$geometry[sel]
+igrass2<-crops.aoi[crops.aoi$LUCODE=="PG01",]
+igrass2<-st_cast(igrass2, "POLYGON")
 
-#igrass2<-crops.aoi[crops.aoi$LUCODE=="PG01",]
-#igrass2<-st_cast(igrass2, "POLYGON")
+# From 2017 crop data
+#crops.aoi.merge<-crops.aoi %>% group_by(LUCODE) %>%  summarise()
+# Extract grassland
+#sel<-which(crops.aoi.merge$LUCODE=="PG01")
+#crop.grass<-crops.aoi.merge$geometry[sel]
+
 notigrass<-priorityhab.aoi[priorityhab.aoi$Main_habit %in% c("Good quality semi-improved grassland","Calaminarian grassland", "Lowland calcareous grassland", "Lowland meadows","Lowland dry acid grassland",  "Upland hay meadow"),]
 notigrass<-st_cast(notigrass, "POLYGON")
 notigrass<-st_union(notigrass) # required for st_difference later
 
 # Keep only areas in igrass1 that overlap with pasture crop hex
 
-impgrass<-overlapping_polys(igrass1,crop.grass)
+impgrass<-overlapping_polys(igrass1,igrass2)
 
 # st_write(impgrass,paste0(dir_out,"impgrass_testdata.shp"),delete_layer = TRUE)
 
