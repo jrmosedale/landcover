@@ -14,12 +14,16 @@ library(rgeos)
 library(raster)
 library(ggplot2)
 library(sf)
-#library(lwgeom)
+library(units)
+# Required for validfity checks using sf package
+library(lwgeom)
+library(magrittr)
+library(dplyr)
 
 # Directories
 in.root<-"/Volumes/Pocket_Sam/Data/"
 root<-"/Volumes/Pocket_Sam/Data/MapApp/Indicator_data/"
-dir_aoi<-"/Users/jonathanmosedale/Rprojects/landcover/masks/"
+dir_aoi<-"/Volumes/Pocket_Sam/Data/masks/"
 dir_cehlandcover<-paste0(in.root,"CEH/lcm-2015-vec_1912428/LCM2015_clip_southwestEngland/")
 dir_corine<-paste0(in.root,"Corine/clc12_Version_18_5_southwestEngland/")
 dir_nateng<-paste0(in.root,"NaturalEngland/")
@@ -29,8 +33,11 @@ dir_agri<-paste0(in.root,"Agriculture/RPAgency/CROME_2017_Southwest/")
 
 dir_out<-paste0(in.root,"training_data/")
 
+####################################################################################
 ## FUNCTIONS
-# Convert bbbox to sf polygon
+####################################################################################
+
+### Convert bbbox to sf polygon
 sf_from_bbox<-function(polygon_in){
   bb<-st_bbox(polygon_in)
   polygon_out<-st_polygon(list(cbind(c(bb[1],bb[3],bb[3],bb[1],bb[1]),c(bb[2],bb[2],bb[4],bb[4],bb[2]))))
@@ -39,7 +46,68 @@ sf_from_bbox<-function(polygon_in){
   return(polygon_out)
 }
 
-#   test<-aoimask
+### Function to check and correct geometry
+checkvalid<-function(sfdataframe){
+  corrected.sf<-sfdataframe
+  features.in<-length(st_geometry(sfdataframe))
+  print(paste("Checking validity of input dataframe geometry possessing",features.in,"features"))
+  validity<-st_is_valid(sfdataframe$geometry)
+  print(paste("Number of invalid geoms in input=",length(validity[validity==FALSE])))
+  if (length(validity[validity==FALSE])>0) {
+    # Record which geometries are invalid
+    invalid<-which(validity==FALSE)
+    # Try to correct
+    print("Trying to correct invalid geometries of feature(s)...")
+    print(invalid)
+    corrected.geoms<-st_make_valid(sfdataframe$geometry[invalid])
+    corrected.sf$geometry[invalid]<-corrected.geoms
+    features.out<-length(st_geometry(corrected.sf))
+    print(paste("Checking validity of corrected dataframe geometry possessing",features.out,"features"))
+    validity<-st_is_valid(corrected.sf$geometry)
+    print(paste("Number of invalid geoms in output=",length(validity[validity==FALSE])))
+  }
+  return(corrected.sf)
+}
+
+### FUNCTION - uses intersect and then retains only polygon types
+overlapping_polys<-function(x,y){
+  result<-st_intersection(x,y)
+  result<-st_collection_extract(result, type=c("POLYGON"),warn=FALSE)
+  return(result)
+}
+
+# Function - prepsf_for_raster
+# Gives polygonID as value
+sf_to_raster<-function(shapedata,template.r){
+  # Force multipolygons to polygons
+  shapedata <- st_cast(shapedata, "POLYGON")
+  #shapedata <- as(shapedata, 'Spatial')
+  #Add variable ID holding numeric identifier for each polygon from rownames
+  # ID<-rep(1,length(shapedata)) # give all areas value of 1
+  ID<-as.numeric(rownames(shapedata))
+  # Rasterize giving same value to pixels of the same woodland polygon. Non-woodland=NA
+  data.r<-rasterize(shapedata,template.r,field=ID)
+  return(data.r)
+}
+# Uses checkvalid function
+process_trainingdata<-function(tdata.sf, buffer_val, min_area){
+  # Check valid and remove all but geometry data
+  result<- checkvalid(tdata.sf)
+  result<-result[c("geometry")]
+  # Exclude any known recent landuse change areas (development zones etc)
+  # tdata.sf <-st_difference(seminatgrass,devzones)
+  # Apply (negative) buffer to remove edge area
+  result<-st_buffer(result, buffer_val)
+  # Reject very small areas -
+  # min_area<-2500 * ud_units$m^2
+  result$area<-st_area(result)
+  toosmall<-which(result$area<min_area)
+  print(paste(length(toosmall),"features excluded because less than",min_area,"metres square in area"))
+  result<-result[which(result$area>=min_area),]
+  return(result)
+}
+
+
 
 # Define master rasters to be used for landcover determination
 #cornwall_land.r<-raster(paste0(root,"cornwall_land_100m.tif"))
@@ -67,6 +135,8 @@ sel<-st_intersects(cehlc, aoimask)
 cehlc<-cehlc[which(sel==1),]
 cehlc.aoi<-st_intersection(cehlc,aoimask)
 unique(cehlc.aoi$bhab)
+# Check validity and write
+cehlc.aoi<-checkvalid(cehlc.aoi)
 st_write(cehlc.aoi,paste0(dir_out,"cehlc_cornwallMHW500m_27700.shp"),delete_layer = TRUE)
 
 # Corine landcover vector map
@@ -80,6 +150,8 @@ clc_lookup<-read.csv(paste0(in.root,"Corine/Legend/clc_legend.csv"),sep=";",head
 corinelc.aoi<-merge(corinelc.aoi,clc_lookup,by.x= "code_12", by.y="CLC_CODE")
 corinelc.aoi<-st_intersection(corinelc.aoi,aoimask)
 #corinelc.aoi<-st_intersection(corinelc27700,aoimask)
+# Check validity and write
+cehlc.aoi<-checkvalid(corinelc.aoi)
 st_write(corinelc.aoi,paste0(dir_out,"corinelc_cornwallMHW500m_27700.shp"),delete_layer = TRUE)
 
 # NE priority habitats
@@ -92,6 +164,8 @@ priorityhab<-priorityhab[which(sel==1),]
 
 priorityhab.aoi<-st_intersection(priorityhab, aoimask)
 unique(priorityhab.aoi$Main_habit)
+# Check validity and write
+priorityhab.aoi<-checkvalid(priorityhab.aoi)
 st_write(priorityhab.aoi,paste0(dir_out,"priorityhabitat_cornwallMHW500m_27700.shp"),delete_layer = TRUE)
 
 # Use FC forest inventory -  in epsg27700
@@ -101,6 +175,8 @@ sel<-st_intersects(forests, aoimask)
 forests<-forests[which(sel==1),]
 forests.aoi<-st_intersection(forests, aoimask)
 unique(forests.aoi$IFT_IOA)
+# Check validity and write
+forests.aoi<-checkvalid(forests.aoi)
 st_write(forests.aoi,paste0(dir_out,"forests_cornwallMHW500m_27700.shp"),delete_layer = TRUE)
 
 # Crop map - only useful for crop identification for specific year
@@ -110,6 +186,8 @@ sel<-st_intersects(crops, aoimask)
 crops<-crops[which(sel==1),]
 # crops.aoi<-st_intersection(crops, aoimask) - # too slow !!!
 unique(crops.aoi$LUCODE)
+# Check validity and write
+crops.aoi<-checkvalid(crops.aoi)
 st_write(crops.aoi,paste0(dir_out,"crophex_2017_cornwallMHW500m_27700.shp"),delete_layer = TRUE)
 
 # Check pattern of distrib - eg evidence of satellite path effect
@@ -118,17 +196,7 @@ st_write(crops.aoi,paste0(dir_out,"crophex_2017_cornwallMHW500m_27700.shp"),dele
 #plot(crops.aoi[crops.aoi$LUCODE=="AC07",]$geometry,col="yellow",add=TRUE)
 #plot(crops.aoi[crops.aoi$LUCODE=="PG01",]$geometry,col="green",add=TRUE)
 
-####################################################################################
-### Checl validity of these datasets
-####################################################################################
-validity<-st_is_valid(cehlc.aoi$geometry)
-print(paste("Number of invalid geoms=",length(validity[validity==FALSE])))
-# ID invalid geometries and why
-invalid<-which(validity==FALSE)
-st_is_valid(cehlc.aoi$geometry[invalid],reason=TRUE)
-# Try to correct
-sf_extSoftVersion()["lwgeom"]
-corrected.geoms<-st_make_valid(cehlc.aoi$geometry[invalid])
+
 
 ####################################################################################
 # Calculate proportion of different landcovers for each database
@@ -334,52 +402,171 @@ write.csv(results.df,file=paste0(dir_out,"crops_cornwallMHW500m_cropmix_stats.cs
 # Optional -ve buffer to remove edges of polygons
 # Remove any development areas where likely land change over past 5 yrs
 ####################################################################################
-# Function - prepsf_for_raster
-sf_to_raster<-function(shapedata,template.r){
-  # Force multipolygons to polygons
-  shapedata <- st_cast(shapedata, "POLYGON")
-  #Add variable ID holding numeric identifier for each polygon from rownames
-  ID<-as.numeric(rownames(shapedata))
-  # Rasterize giving same value to pixels of the same woodland polygon. Non-woodland=NA
-  data.r<-rasterize(shapedata,template.r,field=ID)
-  return(data.r)
-}
 
-# decidwoods
+### Load raster template
+template.r<-raster("/Volumes/Pocket_Sam/Data/Sentinel_2/20170304Mosaic/Rmosaics/cornwall_2017_0326-0408_10mbands_500mbuffer.tif")
+
+
+### Deciduous woods
+####################################################################################
 dwoods1<-cehlc.aoi[cehlc.aoi$bhab=="Broadleaf woodland",]
+dwoods1<-st_cast(dwoods1, "POLYGON")
 #dwoods2<-corinelc.aoi[corinelc.aoi$LABEL3=="Broad-leaved forest",]
 dwoods2<-priorityhab.aoi[priorityhab.aoi$Main_habit=="Deciduous woodland",]
+dwoods2<-st_cast(dwoods2, "POLYGON")
 dwoods3<-forests.aoi[forests.aoi$IFT_IOA %in% c("Broadleaved","Mixed mainly broadleaved"),]
 dwoods3<-st_cast(dwoods3, "POLYGON")
-# Keep only areas that agree across all sources
-decidwoods<-st_intersection(dwoods1,dwoods2)
-decidewoods<-st_intersection(decidwoods,dwoods3)
-decidwoods<-checkvalid(decidwoods)
-plot(decidwoods$geometry)
-# Exclude any known recent landuse change areas (development zones etc)
-# decidwoods<-st_difference(decidwoods,devzones)
-# Convert to raster
-template.r<-raster(FILEPATHANDNAME)
-decidwoods<-sf_to_raster(decidwoods,template.r)
+
+# Keep only areas that agree across all sources - keep only polygons
+decidwoods<-overlapping_polys(dwoods1,dwoods2)
+decidwoods<-overlapping_polys(decidwoods,dwoods3)
+
+# Process training data
+min_area<-2500 * ud_units$m^2
+conifwoods<-process_trainingdata(conifwoods, -10, min_area)
+
+# Write shapefile in 27700 projection
+st_write(decidwoods,paste0(dir_out,"decidwoods_testdata_cornwallMHW500m_27700.shp"),delete_layer = TRUE)
+
+# Transform to projection of reference raster - WGS84 UTM30
+decidwoods32630<-st_transform(decidwoods,32630)
+
+# Convert to raster using template
+decidwoods.r<-sf_to_raster(decidwoods32630,template.r)
+plot(decidwoods.r)
+writeRaster(decidwoods.r,file=paste0(dir_out,"decidwoods_training.tif") )
+
+### Coniferous woods
+####################################################################################
+cwoods1<-cehlc.aoi[cehlc.aoi$bhab=="Coniferous woodland",]
+cwoods1<-st_cast(cwoods1, "POLYGON")
+#dwoods2<-corinelc.aoi[corinelc.aoi$LABEL3=="Coniferous forest",]
+cwoods2<-forests.aoi[forests.aoi$IFT_IOA %in% c("Conifer","Mixed mainly conifer"),]
+cwoods2<-st_cast(cwoods2, "POLYGON")
+# Keep only areas that agree across all sources - keep only polygons
+conifwoods<-overlapping_polys(cwoods1,cwoods2)
+
+# Process training data
+min_area<-2500 * ud_units$m^2
+conifwoods<-process_trainingdata(conifwoods, -10, min_area)
+
+# Write shapefile in 27700 projection
+st_write(conifwoods,paste0(dir_out,"conifwoods_testdata_cornwallMHW500m_27700.shp"),delete_layer = TRUE)
+
+# Transform to projection of reference raster - WGS84 UTM30
+conifwoods32630<-st_transform(conifwoods,32630)
+
+# Convert to raster using template
+conifwoods.r<-sf_to_raster(conifwoods32630,template.r)
+plot(conifwoods.r)
+writeRaster(conifwoods.r,file=paste0(dir_out,"conifwoods_training.tif") )
 
 
-conifwoods
+### Seminatural grassland
+# Q whether to include G Quality semi-improved grass from NE data?
+# Warning - only 13 features!!! - Use only NE data perhaps?
+####################################################################################
+sngrass1<-cehlc.aoi[cehlc.aoi$bhab %in% c("Calcareous grassland","Neutral grassland"),]
+sngrass1<-st_cast(sngrass1, "POLYGON")
+sngrass2<-priorityhab.aoi[priorityhab.aoi$Main_habit %in% c("Good quality semi-improved grassland","Calaminarian grassland", "Lowland calcareous grassland", "Lowland meadows","Lowland dry acid grassland",  "Upland hay meadow"),]
+#sngrass2<-priorityhab.aoi[priorityhab.aoi$Main_habit %in% c("Calaminarian grassland", "Lowland calcareous grassland", "Lowland meadows","Lowland dry acid grassland",  "Upland hay meadow"),]
+sngrass2<-st_cast(sngrass2, "POLYGON")
+# Keep only areas that agree across all sources - keep only polygons
+seminatgrass<-overlapping_polys(sngrass1,sngrass2)
+# Process training data
+min_area<-2500 * ud_units$m^2
+seminatgrass<-process_trainingdata(seminatgrass, -10, min_area)
+# Write shapefile in 27700 projection
+st_write(seminatgrass,paste0(dir_out,"seminatgrass_testdata_cornwallMHW500m_27700.shp"),delete_layer = TRUE)
+# Transform to projection of reference raster - WGS84 UTM30
+seminatgrass32630<-st_transform(seminatgrass,32630)
+# Convert to raster using template
+seminatgrass.r<-sf_to_raster(seminatgrass32630,template.r)
+plot(seminatgrass.r)
+writeRaster(seminatgrass.r,file=paste0(dir_out,"seminatgrass.r_training.tif") )
 
-seminatgrass
-impgrass
+### Improved grassland
+####################################################################################
+#From CEH data
+igrass1<-cehlc.aoi[cehlc.aoi$bhab %in% c("Improved grassland"),]
+igrass1<-st_cast(igrass1, "POLYGON")
+# From 2017 crop data
+crops.aoi.merge<-crops.aoi %>% group_by(LUCODE) %>%  summarise()
+# Extract grassland
+sel<-which(crops.aoi.merge$LUCODE=="PG01")
+crop.grass<-crops.aoi.merge$geometry[sel]
 
+#igrass2<-crops.aoi[crops.aoi$LUCODE=="PG01",]
+#igrass2<-st_cast(igrass2, "POLYGON")
+notigrass<-priorityhab.aoi[priorityhab.aoi$Main_habit %in% c("Good quality semi-improved grassland","Calaminarian grassland", "Lowland calcareous grassland", "Lowland meadows","Lowland dry acid grassland",  "Upland hay meadow"),]
+notigrass<-st_cast(notigrass, "POLYGON")
+notigrass<-st_union(notigrass) # required for st_difference later
+
+# Keep only areas in igrass1 that overlap with pasture crop hex
+
+impgrass<-overlapping_polys(igrass1,crop.grass)
+
+# st_write(impgrass,paste0(dir_out,"impgrass_testdata.shp"),delete_layer = TRUE)
+
+# Remove areas labelled good quality or seminat in NE priority habitat data
+impgrass<-st_difference(impgrass,notigrass)
+
+# Process training data
+min_area<-2500 * ud_units$m^2
+impgrass<-process_trainingdata(impgrass, -10, min_area)
+
+# Write shapefile in 27700 projection
+st_write(impgrass,paste0(dir_out,"impgrass_testdata_cornwallMHW500m_27700.shp"),delete_layer = TRUE)
+
+# Transform to projection of reference raster - WGS84 UTM30
+impgrass32630<-st_transform(impgrass,32630)
+
+# Convert to raster using template
+impgrass.r<-sf_to_raster(impgrass32630,template.r)
+plot(impgrass.r)
+writeRaster(impgrass.r,file=paste0(dir_out,"impgrass.r_training.tif") )
+
+### Quarries
+####################################################################################
 quarries<-
 
+  ### Annual crops
+  ####################################################################################
 anncrops<-
 
-sanddunes<-
+  ### Sanddunes
+  ####################################################################################
+sdunes1<-cehlc.aoi[cehlc.aoi$bhab=="Supralittoral sediment",]
+sdunes1<-st_cast(sdunes1, "POLYGON")
+sdunes2<-priorityhab.aoi[priorityhab.aoi$Main_habit=="Coastal sand dunes",]
+sdunes2<-st_cast(sdunes2, "POLYGON")
+# Keep only areas that agree across all sources - keep only polygons
+sanddunes<-overlapping_polys(sdunes1,sdunes2)
+# Process training data
+min_area<-2500 * ud_units$m^2
+sanddunes<-process_trainingdata(sanddunes, -10, min_area)
 
+# Write shapefile in 27700 projection
+st_write(sanddunes,paste0(dir_out,"sanddunes_testdata_cornwallMHW500m_27700.shp"),delete_layer = TRUE)
+
+# Transform to projection of reference raster - WGS84 UTM30
+sanddunes32630<-st_transform(sanddunes,32630)
+
+# Convert to raster using template
+sanddunes.r<-sf_to_raster(sanddunes32630,template.r)
+plot(sanddunes.r)
+writeRaster(sanddunes.r,file=paste0(dir_out,"sanddunes_training.tif") )
+
+
+
+### Heathlands
+####################################################################################
 
 moors
 grassmoors
 upheath
 lowheath
-  
+
 ####################################################################################
 # CREATE RASTER MASKS OF FIXED NETWORKS - roads, watercourses, buildings from which
 # models of pixel response to these features can be developed
@@ -453,3 +640,4 @@ rivers.r<-rasterize(as(st_zm(rivers.aoi),'Spatial'),template.r)
 rivers.r<-calc(rivers.r,fun=function(x){ifelse(!is.na(x),1,0)}) # presence=1, absence=0
 plot(rivers.r,col="blue")
 writeRaster(rivers.r,filename=paste(root,"watercourses.tif",sep=""),overwrite=T)
+
